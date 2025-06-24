@@ -969,3 +969,9 @@ flex-wrap: nowrap;
   width: 90%;
   border: 2px solid black;
 }
+.active-category {
+  background-color: #333;
+  color: white;
+  border-radius: 20px;
+}
+ 

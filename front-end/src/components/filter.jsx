@@ -1,9 +1,16 @@
 import { useEffect,useRef } from "react";
 
-function Filter({sidebarOpen}){
-    const scrollRef = useRef(null);
+function Filter({ sidebarOpen, onCategorySelect, selectedCategory }) {
+  const scrollRef = useRef(null);
   const leftBtnRef = useRef(null);
   const rightBtnRef = useRef(null);
+
+  const categories = [
+    "All", "Music", "Telugu movies", "Tamil movies", "Recruitment", "Mixes",
+    "Education", "React", "JavaScript", "Java", "4k Resolution", "Villages",
+    "Lakes", "Python", "Bollywood Music", "Theme music", "Dramedy",
+    "Recently uploaded", "Watched", "New to you"
+  ];
 
   const updateButtons = () => {
     const scrollContainer = scrollRef.current;
@@ -18,18 +25,12 @@ function Filter({sidebarOpen}){
     }
 
     if (rightBtnRef.current) {
-      rightBtnRef.current.style.display =
-        scrollLeft >= Math.ceil(maxScrollLeft - threshold) ? "none" : "block";
+      rightBtnRef.current.style.display = scrollLeft >= Math.ceil(maxScrollLeft - threshold) ? "none" : "block";
     }
   };
 
-  const scrollLeft = () => {
-    scrollRef.current?.scrollBy({ left: -200, behavior: "smooth" });
-  };
-
-  const scrollRight = () => {
-    scrollRef.current?.scrollBy({ left: 200, behavior: "smooth" });
-  };
+  const scrollLeft = () => scrollRef.current?.scrollBy({ left: -200, behavior: "smooth" });
+  const scrollRight = () => scrollRef.current?.scrollBy({ left: 200, behavior: "smooth" });
 
   useEffect(() => {
     const scrollContainer = scrollRef.current;
@@ -38,44 +39,28 @@ function Filter({sidebarOpen}){
     scrollContainer.addEventListener("scroll", updateButtons);
     updateButtons();
 
-    return () => {
-      scrollContainer.removeEventListener("scroll", updateButtons);
-    };
+    return () => scrollContainer.removeEventListener("scroll", updateButtons);
   }, [sidebarOpen]);
-    return(
-                  <div className={`filterButton ${sidebarOpen ? "expanded" : ""}`}>
-            <button ref={leftBtnRef} className="scroll-btn left" onClick={scrollLeft}>
-              {"<"}
-            </button>
 
-            <div className="scroll-container" ref={scrollRef}>
-              <button>All</button>
-              <button>Music</button>
-              <button>Telugu movies</button>
-              <button>Tamil movies</button>
-              <button>Recruitment</button>
-              <button>Mixes</button>
-              <button>T Series</button>
-              <button>Data Structures</button>
-              <button>JavaScript</button>
-              <button>Java</button>
-              <button>4k Resolution</button>
-              <button>Villages</button>
-              <button>Lakes</button>
-              <button>Python</button>
-              <button>Bollywood Music</button>
-              <button>Theme music</button>
-              <button>Dramedy</button>
-              <button>Recently uploaded</button>
-              <button>Watched</button>
-              <button>New to you</button>
-            </div>
+  return (
+    <div className={`filterButton ${sidebarOpen ? "expanded" : ""}`}>
+      <button ref={leftBtnRef} className="scroll-btn left" onClick={scrollLeft}>{"<"}</button>
 
-            <button ref={rightBtnRef} className="scroll-btn right" onClick={scrollRight}>
-              {">"}
-            </button>
-          </div>
+      <div className="scroll-container" ref={scrollRef}>
+        {categories.map((category) => (
+          <button
+            key={category}
+            className={selectedCategory === category ? "active-category" : ""}
+            onClick={() => onCategorySelect(category)}
+          >
+            {category}
+          </button>
+        ))}
+      </div>
 
-    )
+      <button ref={rightBtnRef} className="scroll-btn right" onClick={scrollRight}>{">"}</button>
+    </div>
+  );
 }
-export default Filter
+
+export default Filter;

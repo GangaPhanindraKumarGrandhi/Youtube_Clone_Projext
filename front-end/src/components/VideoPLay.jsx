@@ -207,7 +207,7 @@ const handleDeleteComment = async (commentId) => {
         </div>
         
        </div>
-    </div>
+    </div> 
     </>
    
   );

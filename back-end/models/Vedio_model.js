@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 const VedioSchema =  mongoose.Schema({
   VedioId: String,
   title: String,
+  category:String,
   thumbnailUrl: String,
   src: String,
   description: String,

@@ -16,7 +16,7 @@ function Videodetails(props) {
       return (num / 1_000).toFixed(1).replace(/\.0$/, "") + "K";
     }
     return num.toString();
-  }
+  } 
 
   return (
       <div className={`vCard ${props.varient}`}>

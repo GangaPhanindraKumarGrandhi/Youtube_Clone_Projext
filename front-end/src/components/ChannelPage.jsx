@@ -63,6 +63,6 @@ function ChannelPage() {
             </div>
         </div>
     )
-}
+} 
 
 export default ChannelPage
