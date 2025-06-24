@@ -1,0 +1,858 @@
+/* App.css (final update for YouTube-like behavior: header, sidebar, filter bar, and responsive content area) */
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Times New Roman', Times, serif;
+  overflow-y: scroll;
+}
+a{
+  text-decoration: none;
+  color: inherit;
+}
+
+.container1 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  z-index: 1000;
+  background-color: white;
+  height: 56px;
+}
+
+.container2 {
+  display: flex;
+  margin-top: 104px; /* header (56px) + filter bar (48px) */
+  width: 100vw;
+}
+
+/* Container of the sidebar */
+.asidebar {
+  width: 100px;
+  flex-shrink: 0;
+  background-color: white;
+  height: calc(100vh - 56px);
+  position: fixed;
+  top: 56px;
+  left: 0;
+  z-index: 900;
+  transition: width 0.3s;
+  /* Remove overflow here so child can scroll */
+  /* overflow: hidden; ❌ Remove this */
+}
+
+.asidebar.expanded {
+  width: 200px;
+}
+
+/* Sidebar content */
+.sidebar {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding-top: 10px;
+  align-items: center;
+  overflow-y: hidden; /* Default: hide scrollbar */
+  transition: all 0.3s;
+}
+
+.sidebar.expanded {
+  align-items: flex-start;
+  padding-left: 10px;
+  overflow-y: auto; /* Only active when expanded */
+  overflow-x: hidden;
+  scrollbar-width: none; /* Firefox: hide by default */
+}
+
+/* Chrome/Safari: hide by default */
+.sidebar.expanded::-webkit-scrollbar {
+  display: none;
+  width: 8px;
+}
+
+/* Show scrollbars on hover */
+.sidebar.expanded:hover {
+  scrollbar-width: thin; /* Firefox: show thin scrollbar */
+}
+
+.sidebar.expanded:hover::-webkit-scrollbar {
+  display: block; /* Chrome/Safari: show scrollbar */
+}
+
+.sidebar button{
+  width: 90%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 5px;
+  margin:5px;
+ background-color: white;
+ border: 0px;
+ cursor: pointer;
+ border-radius: 10px;
+}
+.sidebar.expanded button {
+  display: flex;
+  flex-direction: row;
+  padding: 10px;
+  width: 80%;
+  border-radius: 10px;
+  margin-left: 1rem;
+  height: auto;
+
+}
+.sidebar button:hover {
+  background-color: #f0f0f0;
+}
+.sidebar button img {
+  width: 24px;
+  height: 24px;
+  margin-right: 16px;
+}
+.sidebar:not(.expanded) button img {
+  margin-right: 0;
+  margin-bottom: 4px;
+}
+.sidecontainer.expanded{
+  border-top: 1px solid black;
+}
+.sidecontainer.expanded button{
+  width: 150px;
+}
+.sidecontainer button{
+  width: 90px;
+}
+.subscriptioncontainer.expanded{
+  width: 90%;
+  border-top: 1px solid black;
+}
+.subscriptioncontainer.expanded button{
+  width: 150px; 
+}
+
+.content.expanded {
+  margin-left: 200px;
+  width: calc(100% - 200px);
+}
+.sidebar.expanded ~ .content {
+  margin-left: 240px;
+  overflow: auto;
+}
+
+.header {
+  height: 56px;
+}
+
+.head {
+  height: 56px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 1rem;
+}
+
+.headalign1 {
+  display: flex;
+  gap: 20px;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+.headalign1 button {
+  width: 40px;
+  font-size: 25px;
+  cursor: pointer;
+  background-color: white;
+  border: none;
+  font-weight: 600;
+}
+
+.headalign2 {
+  display: flex;
+ border: 2px solid black;
+  border-radius: 10px;
+  width: 550px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.headalign2 input {
+  width: 500px;
+  height: 30px;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+ border-bottom: 1px;
+ border-left: 1px;
+  border-top: 1px;
+  font-family: sans-serif;
+}
+
+.headalign2 input:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.headalign3 {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  margin-right: 1rem;
+}
+
+.headalign3 button {
+  font-size: 16px;
+  width: 100px;
+  height: 30px;
+  border-radius: 10px;
+  cursor: pointer;
+  border: none;
+}
+
+.headalign3 button:hover {
+  background-color: black;
+  color: white;
+}
+
+.image {
+  width: 40px;
+  height: auto;
+  
+}
+.imagehome{
+  width: 80px;
+  height: auto;
+}
+.imageLogo{
+  width: 100px;
+  height: 25px;
+  margin-top: 5px;
+}
+
+.image1 {
+  width: 30px;
+  height: 20px;
+}
+
+.cross {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 40px;
+  color: black;
+}
+
+.s {
+  display: inline;
+  position: absolute;
+  top: 5px;
+  cursor: pointer;
+  margin-left: 5px;
+}
+
+.filterButton {
+  position: fixed;
+  top: 56px;
+  left:100px;
+  right: 5px;
+  height: 48px;
+  background-color: white;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  overflow-x: auto;
+  padding: 0 10px;
+  white-space: nowrap;
+  border-bottom: 1px solid #ccc;
+  transition: left 0.3s;
+}
+.filterButton.expanded {
+  left: 210px;
+}
+
+.sidebar.expanded ~ .filterButton {
+  left: 240px;
+ 
+}
+
+.filterButton::-webkit-scrollbar {
+  display: none;
+}
+
+.scroll-container {
+  display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  gap: 30px;
+  padding: 10px;
+  flex: 1;
+}
+
+.scroll-container::-webkit-scrollbar {
+  display: none;
+}
+
+.scroll-container button {
+  white-space: nowrap;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 10px;
+  font-size: 14px;
+  border: none;
+}
+
+.scroll-container button:hover {
+  background-color: black;
+  color: white;
+}
+
+.scroll-btn {
+  font-size: 30px;
+  color: black;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: 10;
+  border-radius: 100%;
+}
+
+.homep {
+  display: flex;
+  gap: 30px;
+}
+
+.scroll-container {
+  scroll-behavior: smooth;
+}
+.content {
+  margin-left: 100px;
+  flex: 1;
+  transition: margin-left 0.3s;
+  padding: 20px;
+  box-sizing: border-box;
+  width: calc(100% - 100px);
+  min-height: 100vh;
+}
+.videoImage {
+ width:100%;
+ height: 250px;
+ border-radius: 10px;
+object-fit: cover;
+}
+.videoImage.play {
+ width:60%;
+ height: 100px;
+ border-radius: 10px;
+object-fit: cover;
+display:inline;
+}
+.videos{
+   display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+ 
+}
+
+.app-layout {
+  display: flex;
+  margin-top: 104px; /* to push below header and filter */
+  height: auto;
+  width: 100%;
+  
+}
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.videoCard:hover {
+  background-color: #f2f2f2;
+}
+
+
+.videodeatails{
+  width: 40%;
+  display: flex;
+  gap: 5px;
+  border: 2px solid black;
+  
+}
+
+.details{
+  font-family:sans-serif;
+}
+
+.details h4,p{
+  margin:2px;
+  padding: 2px;
+}
+
+
+.logo{
+  width: 30px;
+  height: auto;
+  border-radius: 50%;
+  margin-top: 2px;
+}
+
+.logocontainer{
+  width: 40px;
+  height: auto;
+}
+
+.playPage{
+  display: flex;
+  flex-direction: row;
+  width: calc(100%-240px);
+  height: auto;
+  margin-top: 70px;
+  margin-left:120px;
+  margin-right: 120px;
+  justify-content:space-between;
+  
+}
+.videoInformation{
+  width: 68%;
+  height:auto;
+  font-family: sans-serif;
+  
+}
+.det{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.relatedVideos{
+  width: 30%;
+ height: auto;
+}
+
+.videobtn{
+  display: flex;
+  flex-direction: row;
+  justify-content:space-between;
+  align-items: center;
+  width:100% ;
+  
+}
+.videol{
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+}
+.videol button{
+  width: auto;
+  padding: 5px;
+  border-radius: 20px;
+  font-family: sans-serif;
+  border: none;
+  background-color:#f0f0f0;
+  cursor: pointer;
+  display: flex;
+}
+.videol button:hover{
+  background-color: #ccc;
+}
+
+.icon{
+  width: 20px;
+  height: 20px;
+}
+
+.btns{
+ display: flex;
+  gap: 20px;
+  margin-right: 20px;
+}
+.btnlike{
+  display: flex;
+}
+.btnlike button{
+  flex-direction:row;
+  padding: 5px;
+  gap: 5px;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+
+}
+.sharebtn{
+  display: flex;
+  gap: 20px;
+}
+.sharebtn button{
+  cursor: pointer;
+  width: auto;
+  padding: 5px;
+  gap: 5px;
+  border-radius: 20px;
+  border: none;
+  display: flex;
+}
+.btns button{
+  display: flex;
+}
+.btns button:hover{
+  background-color: #ccc;
+}
+.vCard {
+ width: 400px;
+height: 300px;
+cursor: pointer;
+display: flex;
+flex-wrap: nowrap;
+}
+.vCard.play{
+  width: 100%;
+  height: 100px;
+}
+.vimage{
+ width: 100%;
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+.vimage.play{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 5px;
+}
+.sampleimge{
+  width: 100%;
+  height: 75%;
+  margin-bottom: 5px;
+}
+.sampleimge.play{
+  width: 50%;
+  height: 100%;
+ 
+}
+.samvideoImage{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+.samvideoImage.play{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+.samdeatails{
+  width: 100%;
+  height: 25%;
+  display: flex;
+  gap: 5px;
+}
+.samdeatails.play{
+  width: 60%;
+  height: 100%;
+  display: flex;
+}
+.samcontainer{
+  width: auto;
+  height: 100%;
+  display: flex;
+}
+.samcontainer.play{
+  display: none;
+}
+.samlogo{
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+
+.sampledetails{
+  width: auto;
+  font-family: sans-serif;
+}
+.sampledetails.play{
+  width: auto;
+  font-family: sans-serif;
+}
+.samdeatails h4,p{
+  margin: 2px;
+}
+.samdeatails.play h5,p{
+  margin: 5px;
+}
+.sampledetails h5,p{
+  margin: auto;
+}
+.vCard {
+  transition: background-color 0.3s ease;
+}
+.vCard:hover .samvideoImage {
+  filter: brightness(0.8); /* dims the image */
+}
+.videos.play{
+   display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.truncated-multiline {
+  display: -webkit-box;               /* required for older WebKit */
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;              /* ✅ limits to 2 lines */
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  line-clamp: 2;                      /* ✅ new standard syntax */
+  box-orient: vertical;
+}
+.user-avatar{
+  margin-left: 10px;
+}
+.user-avatar button {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  background-color:rgb(208, 7, 226);
+  color: white;
+  font-weight: bold;
+  font-size: 20px;
+  border: none;
+  cursor: pointer;
+  font-family: sans-serif;
+}
+.user-avatar button:hover{
+  background-color: rgb(156, 9, 164);
+}
+.user-sidebar { 
+  height: 600px;
+  font-family: sans-serif;
+ 
+  margin-right: 30px ;
+  position: fixed;
+  top: 60px; /* adjust based on your header height */
+  right: 0;
+  width: 250px;
+  background-color: white;
+  border-left: 1px solid #ddd;
+  padding: 20px;
+  box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+  z-index: 1000;
+  overflow-y:scroll ;
+  border-radius: 10px;
+  transition-duration: 0.3s;
+}
+.user-sidebar h4{
+  margin: 0px;
+
+}
+.user-sidebar::-webkit-scrollbar {
+  display: none;
+  width: 8px;
+}
+
+/* Show scrollbars on hover */
+.user-sidebar:hover {
+  scrollbar-width: thin; /* Firefox: show thin scrollbar */
+}
+
+.user-sidebar:hover::-webkit-scrollbar {
+  display: block; /* Chrome/Safari: show scrollbar */
+}
+
+.user-sidebar p, .user-sidebar button {
+  margin: 10px 0;
+}
+.loginContainer{
+  width: 90%vw;
+  height: 600px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem;
+}
+.loginPage{
+  width: 50%;
+  height: 90%;
+  display: flex;
+  font-family: sans-serif;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 1px 1px 10px rgba(39, 39, 186, 0.99) ;
+  gap: 1rem;
+  padding: 20px;
+  border-radius: 20px;
+  
+ 
+}
+
+.loginPage input{
+  width: 400px;
+  height: 40px;
+  border: 2px solid rgb(164, 13, 181);
+  border-radius: 10px;
+  margin-top: 5px;
+  margin-bottom: 15px; 
+}
+.loginbtns{
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  align-items: center;
+  gap: 5px;
+}
+.loginbtns button{
+  width: 150px;
+  height: 40px;
+  cursor: pointer;
+  border: none;
+  border-radius: 20px;
+  background-color:rebeccapurple;
+  color: white;
+  font-family: sans-serif;
+}
+.loginbtns button:hover{
+  background-color: rgb(87, 5, 175);
+}
+.registerbtn{
+  display: flex;
+  flex-direction: column;
+  margin-top: 5px;
+  align-items: center;
+}
+.registerbtn button{
+   width: 150px;
+  height: 40px;
+  cursor: pointer;
+  border: none;
+  border-radius: 20px;
+  background-color:rebeccapurple;
+  color: white;
+  font-family: sans-serif;
+  align-self: center;
+}
+.registerbtn button:hover{
+   background-color: rgb(87, 5, 175);
+
+}
+.userDetails{
+  display: flex;
+  position: fixed;
+  top:61px;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-right: 50px;
+  background-color: white;
+
+}
+.contentright{
+  margin-top: 110px;
+}
+.rightbtn{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 1px solid black;
+  margin-bottom: 1rem;
+}
+
+.rightbtn button{
+  width: 100%;
+  height: auto;
+  padding: 10px;
+  cursor: pointer;
+  font-family: sans-serif;
+  border: none;
+  border-radius: 10px;
+  background-color:#ddd
+}
+.rightbtn button:hover{
+  background-color:#ccc;
+}
+.logoutbutton{
+  width: 100px;
+  height: 30px;
+  border-radius: 10px;
+  cursor: pointer;
+  background-color:#f0f0f0;
+  border: none;
+  font-family: sans-serif;
+}
+.logoutbutton:hover{
+  background-color: black;
+  color: white;
+}
+.userDetails h4,h3{
+ margin: 0px;
+}
+.commentData{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.commentAdd{
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+}
+.commentAdd input{
+  width: 80%;
+  height: 30px;
+  border-radius: 10px;
+  border: 2px solid black;
+}
+.commentAdd button{
+  width: 100px;
+  height: 34px;
+  border-radius: 20px;
+  background-color: #ccc;
+  cursor: pointer;
+  border: none;
+}
+.commentAdd button:hover{
+  background-color: black;
+  color: white;
+}
+.commentbtn{
+  margin-bottom: 5px;
+  height: 100%;
+  width: 250px;
+  display: flex;
+  gap: 30px;
+}
+.comment{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.commentbtn button{
+  width: 100px;
+  height: 32px;
+  cursor: pointer;
+  border: none;
+  background-color: #ccc;
+  font-family: sans-serif;
+  border-radius: 20px;
+}
+.commentbtn button:hover{
+  background-color: black;
+  color: white;
+}
+.commentedit input{
+  width: 80%;
+  height: 30px;
+  border-radius: 10px;
+  border: 2px solid black;
+
+}
