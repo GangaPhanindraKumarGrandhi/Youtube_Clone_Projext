@@ -1,8 +1,6 @@
 import { useState, useEffect, } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import Head from "./Head";
-import Sidebar from "./Sidebar";
 import Like from "../Images/like.png"
 import Dislike from "../Images/dislike.png"
 import Share from "../Images/share.png"
@@ -14,9 +12,6 @@ function VideoPlay() {
   const [newComment, setNewComment] = useState("");
 const [editingCommentId, setEditingCommentId] = useState(null);
 const [editedText, setEditedText] = useState("");
-    const [sidebarOpen, setSideBarOpen] = useState(false);
-    const s = false
-  const [searchTerm, setSearchTerm] = useState("");
   const { id } = useParams();
   const [video, setVideo] = useState(null);
   const [error, setError] = useState(null);
@@ -81,12 +76,6 @@ const handleDeleteComment = async (commentId) => {
     console.error("Error deleting comment", err.message);
   }
 };
-
- 
-  function side() {
-    setSideBarOpen(!sidebarOpen);
-  }
-
   useEffect(() => {
     axios.get(`http://localhost:5000/api/videos/${id}`)
       .then((res) => {
@@ -106,13 +95,6 @@ const handleDeleteComment = async (commentId) => {
 
   return (
     <>
-    <div className="container1">
-        <Head side={side} searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-      </div>
-       <aside className={`asidebar ${sidebarOpen ? "expanded" : ""}`}>
-          <Sidebar sidebarOpen={sidebarOpen} s = {s}/>
-        </aside>
-
      <div className="playPage">
       <div className="videoInformation">
         <iframe 
@@ -220,7 +202,7 @@ const handleDeleteComment = async (commentId) => {
        </div>
        <div className="relatedVideos" >
         <div className="sample">
-          <Content searchTerm={searchTerm} varient="play"/>
+          <Content  />
 
         </div>
         

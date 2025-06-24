@@ -9,12 +9,27 @@ import CreateChannel from './components/CreateChannel.jsx';
 import './App.css'
 import ChannelPage from './components/ChannelPage.jsx'
 import { UserProvider } from './context/UserContext';
+import MainContent from './components/MainContent.jsx'
 
 
 const appRoute = createBrowserRouter([
   {
     path:"/",
-    element:<App/>
+    element:<App/>,
+    children:[
+      {
+        path:"/",
+        element:<MainContent />
+      },
+      {
+       path:"/videos/:id",
+       element:<VideoPlay/>
+      },
+      {
+         path:"/viewChannel",
+         element:<ChannelPage/>
+      }
+    ]
   },
   {
     path:"/login",
@@ -27,15 +42,7 @@ const appRoute = createBrowserRouter([
   {
   path: "/channel/create",
   element: <CreateChannel />
-},
-  {
-    path:"/viewChannel",
-    element:<ChannelPage/>
-  },
-  {
-    path:"/videos/:id",
-    element:<VideoPlay/>
-  }
+}
 ])
 
 createRoot(document.getElementById('root')).render(

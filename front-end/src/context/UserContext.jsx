@@ -2,11 +2,6 @@ import { createContext, useState, useEffect } from "react";
 
 // Create the context
 const UserContext = createContext();
-
-// Hook for consuming context easily
-
-
-// Provider component
 export function UserProvider({ children }) {
   const [user, setUser] = useState(null); // user: { id, name, email, channelData }
 
@@ -40,4 +35,5 @@ export function UserProvider({ children }) {
   );
 }
 
+export {UserContext}
 export default  UserContext

@@ -5,9 +5,11 @@ import Search from "../Images/searchsam.png"
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useState,useEffect } from "react";
+import Sidebar from "./Sidebar";
 
 
-function Head({side, searchTerm, setSearchTerm}){
+function Head({side, searchTerm, setSearchTerm ,sidebarOpen,sidePlay1}){
+    
   const [viewchannel,setView] = useState(false)
   useEffect(() => {
   const checkUserChannel = async () => {
@@ -21,6 +23,7 @@ function Head({side, searchTerm, setSearchTerm}){
 
     try {
       const res = await axios.get(`http://localhost:5000/api/channel/user/${email}`);
+      console.log(res.data.channel)
       setView(res.data.exists); // true if user has a channel
     } catch (err) {
       console.error("Error checking user channel:", err);
@@ -39,11 +42,8 @@ function Head({side, searchTerm, setSearchTerm}){
   const [showUserSidebar, setShowUserSidebar] = useState(false);
 
   const handleCreateChannelClick = ()=>{
-    if(viewchannel){
-      alert("You have created a channel already")
-    }else {
       navigate("/channel/create"); 
-    }
+  
   }
 
   const clearSearch = () => {
@@ -74,7 +74,7 @@ function Head({side, searchTerm, setSearchTerm}){
   const username = localStorage.getItem("userName")
   const userFirstLetter = userEmail ? userEmail.charAt(0).toUpperCase() : "";
     return(
-      <header>
+      <header className="container1">
         <div className="head">
             <div className="headalign1">
               <button onClick={side}>☰</button>
@@ -99,7 +99,8 @@ function Head({side, searchTerm, setSearchTerm}){
             </div>
        </div>
     <div className="headalign3">
-   <button onClick={handleCreateChannelClick}>+ Create</button>
+      <button onClick={handleCreateChannelClick}>+ Create</button>
+   
    <img src={Bello_Icon} alt="bell_Icon" className="icon" />
 
    {userEmail ? (
@@ -151,6 +152,9 @@ function Head({side, searchTerm, setSearchTerm}){
     </div>
   </div>
   )}
+  <aside className={`asidebar ${sidebarOpen ? "expanded" : ""}`}>
+          <Sidebar sidebarOpen={sidebarOpen} s = {sidePlay1}/>
+        </aside>
   </header>
   )
 }
