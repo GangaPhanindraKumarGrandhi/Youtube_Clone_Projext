@@ -178,7 +178,21 @@ a{
   justify-content: space-between;
   align-items: center;
 }
-
+@media(max-width:1000px){
+  .headalign2{
+    width: 400px;
+  }
+}
+@media(max-width:850px){
+  .headalign2{
+    width: 300px;
+  }
+}
+@media(max-width:740px){
+  .headalign2{
+    width: 200px;
+  }
+}
 .headalign2 input {
   width: 500px;
   height: 30px;
@@ -188,6 +202,21 @@ a{
  border-left: 1px;
   border-top: 1px;
   font-family: sans-serif;
+}
+@media(max-width:1000px){
+  .headalign2 input{
+    width: 350px;
+  }
+}
+@media(max-width:850px){
+  .headalign2 input{
+    width: 250px;
+  }
+}
+@media(max-width:740px){
+  .headalign2 input{
+    width: 150px;
+  }
 }
 
 .headalign2 input:focus {

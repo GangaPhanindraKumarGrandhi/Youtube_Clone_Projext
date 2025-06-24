@@ -14,7 +14,7 @@ function Head({side, searchTerm, setSearchTerm ,sidebarOpen,sidePlay1}){
   useEffect(() => {
   const checkUserChannel = async () => {
     const token = localStorage.getItem("token");
-    const email = localStorage.getItem("userEmail");
+    const email = localStorage.getItem("userEmail"); 
 
     if (!token || !email) {
       setView(false);
