@@ -9,6 +9,32 @@ import Sidebar from "./Sidebar";
 
 
 function Head({side, searchTerm, setSearchTerm ,sidebarOpen,sidePlay1}){
+   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
+   const [searchClicked,setSearchClicked] = useState(false)
+      const [isMobile, setIsMobile] = useState(window.innerWidth <= 700);
+      const handleResize = () => {
+        const mobile = window.innerWidth <= 700;
+        setIsMobile(mobile);
+        if (!mobile) {
+          setIsSearchExpanded(false); // Reset on resize
+          setSearchClicked(!searchClicked)
+          
+        }
+      };
+
+      useEffect(() => {
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+      }, []);
+const toggleSearchBar = () => {
+  setIsSearchExpanded(prev => !prev);
+  setSearchClicked(!searchClicked)
+
+
+} 
+
+ const shouldShowInput = !isMobile || isSearchExpanded;
+      const containerClass = `headalign2 ${isMobile ? (isSearchExpanded ? "expanded" : "collapsed") : ""}`;
     
   const [viewchannel,setView] = useState(false)
   useEffect(() => {
@@ -76,29 +102,30 @@ function Head({side, searchTerm, setSearchTerm ,sidebarOpen,sidePlay1}){
     return(
       <header className="container1">
         <div className="head">
-            <div className="headalign1">
+            <div className= {searchClicked?"headalign1Search":"headalign1"}>
               <button onClick={side}>☰</button>
               <img src={YoutubeLogo} alt="Youtube Logo" className="imageLogo" />
             </div>
-              <div className="headalign2">
-                <div style={{ position: "relative" }}>
-                  <input
-                  type="text"
-                  placeholder="   Search"
-                  value={searchTerm}
-                  onChange={handleInputChange}
-                  />
-                  {searchTerm && (
-                  <span className="cross" onClick={clearSearch}>
-                  &times;
-                  </span>
-                  )}
-                  <div className="s">
+              <div className={containerClass}>
+                {shouldShowInput && (
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={handleInputChange}
+              id="search-input"
+              placeholder="Search"
+             
+            />
+          )}
+                  {shouldShowInput && searchTerm && (
+            <span className="cross" onClick={clearSearch}>&times;</span>
+          )}
+                  <div className="search-icon" onClick={toggleSearchBar}>
                     <img src={Search} alt="Search Logo" className="image1" />
                   </div>
             </div>
-       </div>
-    <div className="headalign3">
+      
+    <div className={searchClicked?"headalign1Search":"headalign3"}>
       <button onClick={handleCreateChannelClick}>+ Create</button>
    
    <img src={Bello_Icon} alt="bell_Icon" className="icon" />
@@ -115,7 +142,8 @@ function Head({side, searchTerm, setSearchTerm ,sidebarOpen,sidePlay1}){
     </Link>
      )}
 </div>
-</div>
+ </div>
+
  {showUserSidebar && (
   <div className="user-sidebar">
     <div className="userDetails">

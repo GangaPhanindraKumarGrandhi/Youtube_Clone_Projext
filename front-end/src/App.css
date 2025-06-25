@@ -42,6 +42,21 @@ a{
   /* overflow: hidden; ❌ Remove this */
 }
 
+@media(max-width:800px){
+  .asidebar{ 
+    width: 0px;
+  }
+}
+
+
+@media(max-width:800px){
+  .asidebar button{
+    font-size: 10px;
+    margin-left: 2px;
+
+  }
+
+}
 .asidebar.expanded {
   width: 200px;
 }
@@ -57,6 +72,11 @@ a{
   overflow-y: hidden; /* Default: hide scrollbar */
   transition: all 0.3s;
 }
+@media(max-width:800px){
+  .sidebar{
+    display: none;
+  }
+}
 
 .sidebar.expanded {
   align-items: flex-start;
@@ -64,6 +84,11 @@ a{
   overflow-y: auto; /* Only active when expanded */
   overflow-x: hidden;
   scrollbar-width: none; /* Firefox: hide by default */
+}
+@media(max-width:800px){
+  .sidebar.expanded{
+    display: block;
+  }
 }
 
 /* Chrome/Safari: hide by default */
@@ -117,6 +142,7 @@ a{
   margin-bottom: 4px;
 }
 .sidecontainer.expanded{
+  width: 90%;
   border-top: 1px solid black;
 }
 .sidecontainer.expanded button{
@@ -137,6 +163,13 @@ a{
   margin-left: 200px;
   width: calc(100% - 200px);
 }
+@media(max-width:480px){
+.content.expanded{
+  margin-left: 0px;
+  width: calc(100% - 0px);
+
+}
+}
 .sidebar.expanded ~ .content {
   margin-left: 240px;
   overflow: auto;
@@ -151,14 +184,26 @@ a{
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 0 1rem;
+  margin:0 1rem;
 }
-
+@media(max-width:800px){
+  .head{
+    margin-left: 2px;
+    margin-right: 25px;
+  }
+}
 .headalign1 {
   display: flex;
   gap: 20px;
   margin-left: 1rem;
   margin-right: 1rem;
+}
+@media(max-width:800px){
+  .headalign1{
+    gap: 2px;
+    margin-left: 8px;
+    margin-right: 5px;
+  }
 }
 
 .headalign1 button {
@@ -169,7 +214,16 @@ a{
   border: none;
   font-weight: 600;
 }
+   .search-icon {
+      cursor: pointer;
+      margin-left: 5px;
+      display: flex;
+      align-items: center;
+      z-index: 10;
+     
+      padding-right: 10px;
 
+    }
 .headalign2 {
   display: flex;
  border: 2px solid black;
@@ -177,7 +231,62 @@ a{
   width: 550px;
   justify-content: space-between;
   align-items: center;
+   transition: all 0.3s ease;
+   position: relative;
 }
+.headalign1Search{
+  display: none;
+}
+ #search-input {
+      flex: 1;
+      padding: 8px;
+      font-size: 16px;
+      border-right: 2px solid black;
+      outline: none;
+      display: block;
+
+    }
+      .cross {
+      font-size: 25px;
+      margin-left: 10px;
+      margin-right: 50px;
+      cursor: pointer;
+      color: black;
+      position: relative;
+      top: 2px;
+    }
+      @media (max-width: 700px) {
+      .headalign2 {
+        width: 30px;
+        justify-content: flex-end;
+      }
+    
+     .headalign2.collapsed .search-input {
+        display: none;
+      
+      }
+      .headalign2.collapsed{
+        width: 50px;
+        height: 30px;
+        border: none;
+        margin-left: auto;
+      }
+      .headalign2.expanded {
+        width: 95%;
+        margin-left: 10px;
+        
+        justify-content: space-between;
+        border: 2px solid black;
+        
+      }
+      .headalign2 .cross {
+        display: none;
+      }
+       .headalign2.expanded .cross {
+        display: block;
+      }
+    }
+    
 @media(max-width:1000px){
   .headalign2{
     width: 400px;
@@ -190,18 +299,19 @@ a{
 }
 @media(max-width:740px){
   .headalign2{
-    width: 200px;
+    width: 250px;
   }
 }
 .headalign2 input {
   width: 500px;
-  height: 30px;
+  height: 20px;
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
  border-bottom: 1px;
  border-left: 1px;
   border-top: 1px;
   font-family: sans-serif;
+
 }
 @media(max-width:1000px){
   .headalign2 input{
@@ -229,6 +339,12 @@ a{
   gap: 5px;
   align-items: center;
   margin-right: 1rem;
+}
+@media(max-width:475px){
+  .headalign3{
+    margin-right:2px;
+    gap: 2px;
+  }
 }
 
 .headalign3 button {
@@ -299,13 +415,23 @@ a{
   border-bottom: 1px solid #ccc;
   transition: left 0.3s;
 }
+@media(max-width:800px){
+  .filterButton{
+    left:0px;
+  }
+}
 .filterButton.expanded {
   left: 210px;
+}
+@media(max-width:480px){
+  .filterButton.expanded {
+  left: 0px;
+}
+
 }
 
 .sidebar.expanded ~ .filterButton {
   left: 240px;
- 
 }
 
 .filterButton::-webkit-scrollbar {
@@ -361,10 +487,16 @@ a{
   margin-left: 100px;
   flex: 1;
   transition: margin-left 0.3s;
-  padding: 20px;
+  padding: 10px;
   box-sizing: border-box;
   width: calc(100% - 100px);
   min-height: 100vh;
+}
+@media(max-width:800px){
+  .content{
+    margin-left:0px;
+     width: calc(100% - 60px);
+  }
 }
 .videoImage {
  width:100%;
@@ -381,11 +513,23 @@ display:inline;
 }
 .videos{
    display: flex;
-  gap: 2rem;
+   gap: 1rem;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
- 
+}
+@media(max-width:800px){
+  .videos{
+    justify-content:center;
+    
+  }
+}
+@media(max-width:730px){
+  .videos{
+   justify-content: center;
+  align-items: center;
+    gap: 0px
+  }
 }
 
 .app-layout {
@@ -399,6 +543,7 @@ display:inline;
   flex: 1;
   display: flex;
   flex-direction: column;
+  align-items: center
 }
 
 .videoCard:hover {
@@ -533,16 +678,41 @@ display:inline;
   background-color: #ccc;
 }
 .vCard {
- width: 400px;
-height: 300px;
+ width: 420px;
+height: 320px;
 cursor: pointer;
 display: flex;
 flex-wrap: nowrap;
+margin-bottom: 10px;
+}
+@media(max-width:1000px){
+  .vCard{
+    width: 350px;
+    height: 250px;
+  }
+}
+@media(max-width:888px){
+  .vCard{
+    width: 300px;
+    height: 200px;
+  }
+}
+@media(max-width:730px){
+  .vCard{
+    width: 100%;
+    height: 90%;
+  }
+}
+@media(max-width:500px){
+  .vCard{
+   margin-bottom: 1rem;
+  }
 }
 .vCard.play{
   width: 100%;
   height: 100px;
 }
+
 .vimage{
  width: 100%;
   height: 100%;
@@ -559,7 +729,7 @@ flex-wrap: nowrap;
 .sampleimge{
   width: 100%;
   height: 75%;
-  margin-bottom: 5px;
+  
 }
 .sampleimge.play{
   width: 50%;
@@ -583,6 +753,28 @@ flex-wrap: nowrap;
   height: 25%;
   display: flex;
   gap: 5px;
+  margin-top: 5px;
+  font-size:15px;
+}
+@media(max-width:888px){
+  .samdeatails{
+    font-size: 12px
+  }
+}
+@media(max-width:730px){
+  .samdeatails{
+    font-size: 16px;
+  }
+}
+@media(max-width:600px){
+  .samdeatails{
+    font-size: 15px;
+  }
+}
+@media(max-width:500px){
+  .samdeatails{
+    font-size: 12px;
+  }
 }
 .samdeatails.play{
   width: 60%;
@@ -612,7 +804,8 @@ flex-wrap: nowrap;
   font-family: sans-serif;
 }
 .samdeatails h4,p{
-  margin: 2px;
+  margin-bottom: 1px;
+  margin-top: 0px;
 }
 .samdeatails.play h5,p{
   margin: 5px;
@@ -645,6 +838,11 @@ flex-wrap: nowrap;
 }
 .user-avatar{
   margin-left: 10px;
+}
+@media(max-width:450px){
+  .user-avatar{
+    margin-left: 2px;
+  }
 }
 .user-avatar button {
   border-radius: 50%;
