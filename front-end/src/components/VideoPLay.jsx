@@ -3,13 +3,20 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import Like from "../Images/like.png"
 import Dislike from "../Images/dislike.png"
+import Save from "../Images/save.png"
+import Delete from "../Images/delete.png"
+import Edit from "../Images/edit.png"
+import Upload from "../Images/upload.png"
 import Share from "../Images/share.png"
 import Download from "../Images/download.png"
+import ThreeDots from "../Images/threedots.png"
 import Bell from "../Images/bell.png"
 import Content from "./Content";
 
 function VideoPlay() {
   const [newComment, setNewComment] = useState("");
+  const [dotClickedCommentId, setDotClickedCommentId] = useState(null);
+
 const [editingCommentId, setEditingCommentId] = useState(null);
 const [editedText, setEditedText] = useState("");
   const { id } = useParams();
@@ -17,6 +24,16 @@ const [editedText, setEditedText] = useState("");
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
    const username = localStorage.getItem("userName")
+   const [showAllComments, setShowAllComments] = useState(false);
+   const [isMobile, setIsMobile] = useState(window.innerWidth < 1000);
+   useEffect(() => {
+  const handleResize = () => {
+    setIsMobile(window.innerWidth < 1000);
+  };
+
+  window.addEventListener("resize", handleResize);
+  return () => window.removeEventListener("resize", handleResize);
+}, []);
 
 
  const handleAddComment = async () => {
@@ -139,31 +156,32 @@ const handleDeleteComment = async (commentId) => {
     value={newComment}
     onChange={(e) => setNewComment(e.target.value)}
   />
-  <button onClick={handleAddComment}>Post</button>
+  <button onClick={handleAddComment}><div style={{display:"flex",alignItems:"center",gap:"8px",padding:"2px"}}><img style={{marginLeft:"8px"}} src={Upload} /> Post </div></button>
 </div>
-               {video.comments.map((c) => (
+{(isMobile && !showAllComments ? video.comments.slice(0, 1) : video.comments).map((c) => (
   <div key={c.commentId} className="comment">
-    <div style={{ display: "flex", alignItems: "center", gap: "10px",justifyContent:"space-between" }}>
-      <div style={{display:"flex", alignItems:"center"}}>
+    <div style={{ display: "flex", alignItems: "center", gap: "10px", justifyContent: "space-between" }}>
+      <div style={{ display: "flex", alignItems: "center" }}>
         <div style={{
-        backgroundColor: "#333",
-        color: "#fff",
-        borderRadius: "50%",
-        width: "32px",
-        height: "32px",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        fontWeight: "bold",
-       
-        border:"2px solid black"
-      }}>
-        {(c.userId.startsWith("@") ? c.userId[1] : c.userId[0]).toUpperCase()}
+          backgroundColor: "#333",
+          color: "#fff",
+          borderRadius: "50%",
+          width: "32px",
+          height: "32px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          fontWeight: "bold",
+          border: "2px solid black"
+        }}>
+          {(c.userId.startsWith("@") ? c.userId[1] : c.userId[0]).toUpperCase()}
+        </div>
+        <h5 style={{ marginLeft: "15px" }}>{c.userId}</h5>
       </div>
-       <h5 style={{marginLeft:"15px"}}>{c.userId}</h5>
-      </div>
-       <div className="commentbtn">
-        <button
+<div className="threeDotsbtn">
+  {dotClickedCommentId === c.commentId && (
+    <div className="commentbtn">
+      <button
         onClick={() => {
           if (editingCommentId === c.commentId) {
             handleEditComment(c.commentId);
@@ -173,13 +191,39 @@ const handleDeleteComment = async (commentId) => {
           }
         }}
       >
-        {editingCommentId === c.commentId ? "Save" : "Edit"}
+        {editingCommentId === c.commentId ? (
+          <div style={{ display: "flex", alignItems: "center", gap: "8px", padding: "2px" }}>
+            <img style={{ marginLeft: "8px" }} src={Save} alt="Save" /> Save
+          </div>
+        ) : (
+          <div style={{ display: "flex", alignItems: "center", gap: "8px", padding: "2px" }}>
+            <img style={{ marginLeft: "8px" }} src={Edit} alt="Edit" /> Edit
+          </div>
+        )}
       </button>
 
-      {/* Delete stays unchanged */}
-      <button onClick={() => handleDeleteComment(c.commentId)}>Delete</button>
-       </div>
+      <button onClick={() => handleDeleteComment(c.commentId)}>
+        <div style={{ display: "flex", alignItems: "center", gap: "8px", padding: "2px" }}>
+          <img style={{ marginLeft: "8px" }} src={Delete} alt="Delete" /> Delete
+        </div>
+      </button>
     </div>
+  )}
+
+  <button
+    onClick={() =>
+      setDotClickedCommentId(
+        dotClickedCommentId === c.commentId ? null : c.commentId
+      )
+    }
+  >
+    ⋮
+  </button>
+</div>
+
+
+    </div>
+
     <div className="commentedit">
       {editingCommentId === c.commentId ? (
         <input
@@ -190,11 +234,20 @@ const handleDeleteComment = async (commentId) => {
       ) : (
         <p style={{ marginLeft: "40px" }}>{c.text}</p>
       )}
-
-     
     </div>
   </div>
 ))}
+
+{isMobile && video.comments.length > 1 && (
+  <div className="showmorebtn">
+  <button
+    onClick={() => setShowAllComments(prev => !prev)}
+
+  >
+    {showAllComments ? "Show Less" : "Show More"}
+  </button>
+  </div>
+)}
 
 </div>
 

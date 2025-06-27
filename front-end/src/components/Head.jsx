@@ -16,8 +16,9 @@ function Head({side, searchTerm, setSearchTerm ,sidebarOpen,sidePlay1}){
         const mobile = window.innerWidth <= 700;
         setIsMobile(mobile);
         if (!mobile) {
+           
           setIsSearchExpanded(false); // Reset on resize
-          setSearchClicked(!searchClicked)
+         
           
         }
       };
@@ -102,7 +103,7 @@ const toggleSearchBar = () => {
     return(
       <header className="container1">
         <div className="head">
-            <div className= {searchClicked?"headalign1Search":"headalign1"}>
+            <div className= {searchClicked && isSearchExpanded?"headalign1Search":"headalign1"}>
               <button onClick={side}>☰</button>
               <img src={YoutubeLogo} alt="Youtube Logo" className="imageLogo" />
             </div>
@@ -125,7 +126,7 @@ const toggleSearchBar = () => {
                   </div>
             </div>
       
-    <div className={searchClicked?"headalign1Search":"headalign3"}>
+    <div className={searchClicked && isSearchExpanded?"headalign1Search":"headalign3"}>
       <button onClick={handleCreateChannelClick}>+ Create</button>
    
    <img src={Bello_Icon} alt="bell_Icon" className="icon" />

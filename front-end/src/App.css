@@ -42,7 +42,7 @@ a{
   /* overflow: hidden; ❌ Remove this */
 }
 
-@media(max-width:800px){
+@media(max-width:1000px){
   .asidebar{ 
     width: 0px;
   }
@@ -72,7 +72,7 @@ a{
   overflow-y: hidden; /* Default: hide scrollbar */
   transition: all 0.3s;
 }
-@media(max-width:800px){
+@media(max-width:1000px){
   .sidebar{
     display: none;
   }
@@ -85,7 +85,7 @@ a{
   overflow-x: hidden;
   scrollbar-width: none; /* Firefox: hide by default */
 }
-@media(max-width:800px){
+@media(max-width:1000px){
   .sidebar.expanded{
     display: block;
   }
@@ -415,7 +415,7 @@ a{
   border-bottom: 1px solid #ccc;
   transition: left 0.3s;
 }
-@media(max-width:800px){
+@media(max-width:1000px){
   .filterButton{
     left:0px;
   }
@@ -492,7 +492,7 @@ a{
   width: calc(100% - 100px);
   min-height: 100vh;
 }
-@media(max-width:800px){
+@media(max-width:1000px){
   .content{
     margin-left:0px;
      width: calc(100% - 60px);
@@ -518,17 +518,17 @@ display:inline;
   align-items: center;
   justify-content: center;
 }
-@media(max-width:800px){
+@media(max-width:1000px){
   .videos{
     justify-content:center;
     
   }
 }
-@media(max-width:730px){
+@media(max-width:740px){
   .videos{
    justify-content: center;
   align-items: center;
-    gap: 0px
+    gap: 0px;
   }
 }
 
@@ -584,19 +584,73 @@ display:inline;
 .playPage{
   display: flex;
   flex-direction: row;
-  width: calc(100%-240px);
+  width: calc(100%-200px);
   height: auto;
   margin-top: 70px;
-  margin-left:120px;
-  margin-right: 120px;
+  margin-left:100px;
+  margin-right: 100px;
   justify-content:space-between;
+}
+@media(max-width:1000px){
+  .playPage{
+    flex-direction: column;
+    gap: 30px;
+    margin-left: 20px;
+    margin-right: 20px;
+    width: calc(100%-40px);
+  }
+}
+.showmorebtn{
+  width: 100%;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  height: 50px;
   
+}
+.threeDotsbtn{
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  
+  height: 50px;
+  justify-content: center;
+  align-items: center;
+
+
+}
+.threeDotsbtn button{
+  font-size: 25px;
+  cursor: pointer;
+  border: none;
+  background-color: white;
+  width: 15px;
+  
+  height: 32px;
+}
+.showmorebtn button{
+  width: 100px;
+  height: 40px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  background-color: #ccc;
+  font-family: sans-serif;
+}
+.showmorebtn button:hover{
+  background-color: black;
+  color: white;
 }
 .videoInformation{
   width: 68%;
   height:auto;
   font-family: sans-serif;
-  
+}
+@media(max-width:1000px){
+  .videoInformation{
+    width:100%;
+    margin-left: 0px;
+  }
 }
 .det{
   display: flex;
@@ -687,20 +741,21 @@ margin-bottom: 10px;
 }
 @media(max-width:1000px){
   .vCard{
-    width: 350px;
-    height: 250px;
+    width: 48%;
+    height: 45vh;
   }
 }
 @media(max-width:888px){
   .vCard{
-    width: 300px;
-    height: 200px;
+    width: 48%;
+    height: 40vh;
   }
 }
-@media(max-width:730px){
+@media(max-width:740px){
   .vCard{
     width: 100%;
-    height: 90%;
+    height: 92%;
+    margin-bottom: 0px;
   }
 }
 @media(max-width:500px){
@@ -1029,7 +1084,7 @@ margin-bottom: 10px;
 .commentAdd{
   display: flex;
   flex-direction: row;
-  gap: 10px;
+  gap: 16px;
   align-items: center;
   justify-content: center;
 }
@@ -1052,11 +1107,16 @@ margin-bottom: 10px;
   color: white;
 }
 .commentbtn{
-  margin-bottom: 5px;
-  height: 100%;
+  
+  height: 50px;
   width: 250px;
   display: flex;
-  gap: 30px;
+  gap: 25px;
+  justify-content: center;
+  align-items: center;
+
+ 
+  
 }
 .comment{
   display: flex;
@@ -1071,6 +1131,8 @@ margin-bottom: 10px;
   background-color: #ccc;
   font-family: sans-serif;
   border-radius: 20px;
+  font-size: 15px;
+
 }
 .commentbtn button:hover{
   background-color: black;
