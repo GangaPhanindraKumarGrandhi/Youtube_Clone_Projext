@@ -6,8 +6,8 @@ function Filter({ sidebarOpen, onCategorySelect, selectedCategory }) {
   const rightBtnRef = useRef(null);
 
   const categories = [
-    "All", "Music", "Telugu movies", "Tamil movies", "Recruitment", "Mixes",
-    "Education", "React", "JavaScript", "Java", "4k Resolution", "Villages",
+    "All", "Music", "Movie", "CSS",
+    "Education", "React", "JavaScript", "Data Structures", "4k Resolution", "Villages",
     "Lakes", "Python", "Bollywood Music", "Theme music", "Dramedy",
     "Recently uploaded", "Watched", "New to you"
   ];
