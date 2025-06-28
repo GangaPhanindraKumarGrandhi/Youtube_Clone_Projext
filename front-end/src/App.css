@@ -1171,13 +1171,14 @@ margin-bottom: 10px;
 .loginbtns{
   display: flex;
   flex-direction: column;
-  margin-top: 20px;
+  margin-top: 40px;
+  margin-bottom: 10px;
   align-items: center;
   gap: 5px;
 }
 .loginbtns button{
-  width: 150px;
-  height: 40px;
+  width: 120px;
+  height: 35px;
   cursor: pointer;
   border: none;
   border-radius: 20px;
@@ -1491,30 +1492,12 @@ margin-bottom: 10px;
   background-color:#39383b;
   color: white;
 }
-.AddButton{
-margin-top: 30px;
-width: 20%;
-height: 50px;
-}
-.AddButton button{
-  width: 100px;
-  height: 30px;
-  cursor: pointer;
-  background-color: black;
-  color: white;
-  border: none;
-  border-radius: 10px;
-
-}
-.AddButton button:hover{
-  background-color: #333;
-}
 .channelbar{
   display: flex;
   gap: 30px;
   margin-top: 25px;
   margin-left: 5px;
-  width: 85%;
+  width: 100%;
 }
 @media(max-width:540px){
   .channelbar{
@@ -1541,4 +1524,146 @@ height: 50px;
   color: white;
   border-radius: 20px;
 }
- 
+.video-form{
+  width: auto;
+  height: auto;
+  margin: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.videoFormData{
+ box-shadow: 1px 1px 10px rgba(39, 39, 186, 0.99) ;
+  width: 1000px;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-family: sans-serif;
+  gap: 15px;
+  padding: 20px;
+  border-radius: 10px;
+}
+@media(max-width:1000px)
+{
+  .videoFormData{
+    width: 800px;
+  }
+}
+@media(max-width:670px)
+{
+  .videoFormData{
+    width: 600px;
+  }
+}
+@media(max-width:500px)
+{
+  .videoFormData{
+    width: 450px;
+  }
+}
+.videoHeading{
+  width: 800px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+@media(max-width:1000px){
+  .videoHeading{
+    width: 600px;
+  }
+}
+@media(max-width:670px){
+  .videoHeading{
+    width: 450px;
+  }
+}
+@media(max-width:500px){
+  .videoHeading{
+    width: 300px;
+  }
+}
+.inputFields{
+  width: 700px;
+  height: auto;
+}
+@media(max-width:1000px){
+  .inputFields{
+    width: 600px;
+  }
+}
+@media(max-width:670px){
+  .inputFields{
+    width: 450px;
+  }
+}
+@media(max-width:500px){
+  .inputFields{
+    width: 300px;
+  }
+}
+.inputFields h4{
+  margin-top: 25px;
+  margin-bottom: 5px;
+}
+.inputFields input{
+  width: 700px;
+  height: 35px;
+  border-radius: 10px;
+  border: 3px solid darkorchid
+}
+@media(max-width:1000px){
+  .inputFields input{
+    width: 600px;
+  }
+}
+@media(max-width:670px){
+  .inputFields input{
+    width: 450px;
+  }
+}
+@media(max-width:500px){
+  .inputFields input{
+    width: 300px;
+  }
+}
+.videoSubmitbtn{
+  width: 700px;
+  height: 50px;
+  margin-top: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+@media(max-width:1000px){
+  .videoSubmitbtn{
+    width: 600px;
+  }
+}
+@media(max-width:670px){
+  .videoSubmitbtn{
+    width: 450px;
+  }
+}
+@media(max-width:500px){
+  .videoSubmitbtn{
+    width: 300px;
+  }
+}
+.videoSubmitbtn button{
+  width: 100px;
+  border-radius: 20px;
+  height: 35px;
+  border: none;
+  background-color: black;
+  color: white;
+  font-family: sans-serif;
+  font-weight: bold;
+  cursor: pointer;
+}
+.videoSubmitbtn button:hover{
+  background-color: #333;
+}

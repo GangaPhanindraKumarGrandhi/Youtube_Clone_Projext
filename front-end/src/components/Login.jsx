@@ -46,26 +46,28 @@ function LoginUser() {
   };
 
   return (
-    <div className="loginContainer">
-      <div className="loginPage">
-      <h2>Login</h2>
-      <form onSubmit={handleLogin}>
-        <label>Username:</label><br/>
+    <div className="video-form">
+      <div className="videoFormData">
+        <div className="videoHeading">
+            <h2>Login</h2>
+        </div>
+        <div className="inputFields">
+           <form onSubmit={handleLogin}>
+       <h4>Username:</h4>
         <input
         type="name"
-       
         required
         value={userName}
         onChange={(e)=>setUserName(e.target.value)}
         /><br/>
-        <label>Email:</label><br/>
+      <h4>Email:</h4>
         <input
           type="email"
           required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         /><br/>
-        <label>Password:</label><br/>
+        <h4>Password:</h4>
         <input
           type="password"
           required
@@ -79,6 +81,9 @@ function LoginUser() {
         </div>
         
       </form>
+
+        </div>
+     
     </div>
 
     </div>

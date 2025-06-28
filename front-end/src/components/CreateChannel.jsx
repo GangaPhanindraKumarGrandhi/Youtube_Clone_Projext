@@ -41,41 +41,41 @@ function CreateChannel() {
   };
 
   return (
-    <div className="loginContainer"> 
-      <div className="loginPage">
-      <h2>Create Channel</h2>
-      <form onSubmit={handleSubmit}>
-        <label>ChannelName:</label><br />
+    <div className="video-form"> 
+      <div className="videoFormData">
+        <div className="videoHeading">
+          <h2>Create Channel</h2>
+        </div>
+        <div className="inputFields">
+          <form onSubmit={handleSubmit}>
+        <h4>ChannelName:</h4>
         <input
           type="text"
           name="channelName"
           onChange={handleChange}
           required
         /><br />
-        <label>Description::</label><br />
+    <h4>Description:</h4>
         <input
           type="text"
           name="description"
           onChange={handleChange}
           required
         /><br />
-        <label>ChannelBannerUrl:</label><br />
+        <h4>ChannelBannerUrl:</h4>
         <input
           type="text"
           name="channelBanner"
           onChange={handleChange}
           required
         /><br />
-        <div className="registerbtn" style={{marginTop:"50px"}}>
-          <button type="submit">Create Channel</button>
-
+        <div className="videoSubmitbtn"  >
+          <button style={{width:"150px"}} type="submit">Create Channel</button>
         </div>
-        
       </form>
+        </div>
     </div>
-
     </div>
-    
   );
 }
 

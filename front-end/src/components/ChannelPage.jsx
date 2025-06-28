@@ -3,8 +3,11 @@ import { useState, useEffect } from "react"
 import { useOutletContext } from "react-router-dom"
 import Content from "./Content"
 import Bell from "../Images/subscribe_bell.png"
+import Post from "../Images/upload.png"
+import { useNavigate } from "react-router-dom"
 
 function ChannelPage() {
+    const navigate = useNavigate()
     const [channelData, setChannelData] = useState(null)
     const { sidebarOpen } = useOutletContext()
     const [channelName, setChannelname] = useState("")
@@ -45,7 +48,12 @@ function ChannelPage() {
                     <h1>{channelData?(channelData.channelName):""}</h1>
                     <h3>{channelData?(channelData.Owner):""}</h3>
                     <p className="truncated-multiline">{channelData?(channelData.description):""}</p>
-                    <button><img src={Bell} />Subscribe</button>
+                    <div style={{display:"flex"}}>
+                        <button><img src={Bell} />Subscribe</button>
+                    <button onClick={()=> navigate("/create-video")}><img src={Post} />Add Video</button>
+
+                    </div>
+                    
                     
                 </div>
             </div>
@@ -58,9 +66,7 @@ function ChannelPage() {
                     <button>Playlists</button>
                     <button>Posts</button>
                 </div>
-                <div className="AddButton">
-                    <button>Add Video</button>
-                </div>
+                
             </div>
             <div style={{marginTop:"330px"}} className={!sidebarOpen?"":"contentExpanded"}>
                 <div >

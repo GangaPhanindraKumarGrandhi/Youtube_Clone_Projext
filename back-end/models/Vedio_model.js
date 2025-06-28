@@ -15,7 +15,10 @@ const VedioSchema =  mongoose.Schema({
   likes: String,
   dislikes: String,
   uploadDate: { type: Date, default: Date.now },
-  comments: Array, // ✅ FIXED
+   comments: {
+  type: Array,
+    default: [],
+  }
 });
 
 const model = mongoose.model("Vedio",VedioSchema)

@@ -2,10 +2,22 @@ import { Link } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import Delete from "../Images/delete.png"
 import Edit from "../Images/edit.png"
+import axios from "axios"
 
 function Videodetails(props) {
   const [dotClickedVideoId, setDotClickedVideoId] = useState(null);
   const cardRef = useRef(null);
+  const handleEdit = () => {
+  window.location.href = `/edit-video/${props.product._id}`;
+};
+const handleDelete = async () => {
+  try {
+    await axios.delete(`http://localhost:5000/api/videos/${props.product._id}`);
+    window.location.reload();
+  } catch (err) {
+    console.error("Delete error:", err);
+  }
+};
 
   function formatViews(viewString) {
     if (!viewString) return "0";
@@ -73,7 +85,7 @@ function Videodetails(props) {
 
           {props.channelbtn && (
             <div style={{ position: "relative" }}>
-              <button
+              <button 
                 onClick={handleDotClick}
                 className="channeldotbtn"
               >
@@ -96,8 +108,8 @@ function Videodetails(props) {
                   }}
                 >
                   {/* Replace below with Edit/Delete options */}
-                  <button><img src={Edit} />Edit</button>
-                  <button><img src={Delete} />Delete</button>
+                  <button onClick={handleEdit}><img src={Edit} />Edit</button>
+                  <button onClick={handleDelete}><img src={Delete} />Delete</button>
                 </div>
               )}
             </div>

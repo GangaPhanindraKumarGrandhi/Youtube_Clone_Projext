@@ -10,6 +10,7 @@ import './App.css'
 import ChannelPage from './components/ChannelPage.jsx'
 import { UserProvider } from './context/UserContext';
 import MainContent from './components/MainContent.jsx'
+import VideoForm from './components/VideoForm.jsx'
 
 
 const appRoute = createBrowserRouter([
@@ -42,6 +43,14 @@ const appRoute = createBrowserRouter([
   {
   path: "/channel/create",
   element: <CreateChannel />
+},
+{
+  path:"/create-video",
+  element:<VideoForm/>
+},
+{
+  path:"/edit-video/:id",
+  element:<VideoForm/>
 }
 ])
 

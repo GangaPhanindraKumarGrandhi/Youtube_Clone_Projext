@@ -85,3 +85,32 @@ export async function deleteComment(req, res) {
     res.status(500).json({ message: "Error deleting comment", error: err.message });
   }
 }
+export async function createVideo(req, res) {
+  try {
+    const newVideo = new Video(req.body);
+    await newVideo.save();
+    res.status(201).json(newVideo);
+  } catch (err) {
+    res.status(500).json({ message: "Error creating video", error: err.message });
+  }
+}
+
+export async function updateVideo(req, res) {
+  const { id } = req.params;
+  try {
+    const updated = await Video.findByIdAndUpdate(id, req.body, { new: true });
+    res.status(200).json(updated);
+  } catch (err) {
+    res.status(500).json({ message: "Error updating video", error: err.message });
+  }
+}
+
+export async function deleteVideo(req, res) {
+  const { id } = req.params;
+  try {
+    await Video.findByIdAndDelete(id);
+    res.json({ message: "Video deleted" });
+  } catch (err) {
+    res.status(500).json({ message: "Error deleting video", error: err.message });
+  }
+}
