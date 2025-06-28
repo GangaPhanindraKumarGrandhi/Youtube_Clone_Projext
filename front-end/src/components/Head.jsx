@@ -2,6 +2,8 @@ import YoutubeLogo from "../Images/YoutubeLogo.png";
 import Bello_Icon from "../Images/bell.png";
 import { Link } from "react-router-dom";
 import Search from "../Images/searchsam.png"
+import Logout from "../Images/logout.png"
+import Login from "../Images/login.png"
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useState,useEffect } from "react";
@@ -139,7 +141,7 @@ const toggleSearchBar = () => {
     </div>
      ) : (
     <Link to="/login">
-      <button>Sign In</button> 
+    <button className="loginbutton" > <img src={Login} alt="Login Logo" />Sign In</button> 
     </Link>
      )}
 </div>
@@ -155,7 +157,7 @@ const toggleSearchBar = () => {
         <h3>{username}</h3>
         <h4>{userEmail}</h4>
       </div>
-      <button className="logoutbutton" onClick={handleLogout}>Logout</button>
+      <button  style={{marginLeft:"12px",marginRight:"12px"}} className="logoutbutton" onClick={handleLogout}><img src={Logout}  />Logout</button>
       {viewchannel && (<Link to="/viewChannel"><button className="logoutbutton">View Channel</button></Link>)}
     </div>
     <div className="contentright">

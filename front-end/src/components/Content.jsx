@@ -2,7 +2,7 @@ import UseFetchVideos from "../hook/UseFetchVideos";
 import Videodetails from "./Videodetails";
 import { useOutletContext } from "react-router-dom";
 
-function Content({category = "All" }) {
+function Content({category = "All" ,channelbtn = false}) {
   const { videos, err } = UseFetchVideos();
   const {searchTerm,varient} = useOutletContext()
 
@@ -19,7 +19,7 @@ function Content({category = "All" }) {
     <div className={`v ${varient}`}>
       <div className={`videos ${varient}`}>
         {filteredVideos.map((video) => (
-          <Videodetails key={video._id} product={video} varient={varient} />
+          <Videodetails key={video._id} product={video} varient={varient} channelbtn={channelbtn} />
         ))}
       </div>
     </div>

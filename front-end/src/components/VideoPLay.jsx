@@ -115,10 +115,7 @@ const handleDeleteComment = async (commentId) => {
      <div className="playPage">
       <div className="videoInformation">
         <iframe 
-    
-        width="100%" 
-        height="520px" 
-        style={{ borderRadius: "10px" }} 
+        className="iframeVideo"
         src={video.src} 
         title={video.title} 
         frameBorder="0" 
@@ -126,11 +123,13 @@ const handleDeleteComment = async (commentId) => {
         allowFullScreen>
       </iframe>
       <div className="det">
-        <h3 style={{margin:"10px"}}>{video.title}</h3>
+        <h3 style={{marginTop:"10px"}}>{video.title}</h3>
         <div className="videobtn">
           <div className="videol">
-            <img src={video.channelLogo} alt="channelLogo" style={{width:"40px",height:"40px",borderRadius:"50%"}}/>
+            <div style={{display:"flex"}}>
+              <img src={video.channelLogo} alt="channelLogo" style={{width:"40px",height:"40px",borderRadius:"50%"}}/>
              <p>{video.uploader}</p>
+            </div>
              <button><img src={Bell} className="icon"/><p>Subscribe</p></button>
           </div>
           <div className="btns">
@@ -156,7 +155,7 @@ const handleDeleteComment = async (commentId) => {
     value={newComment}
     onChange={(e) => setNewComment(e.target.value)}
   />
-  <button onClick={handleAddComment}><div style={{display:"flex",alignItems:"center",gap:"8px",padding:"2px"}}><img style={{marginLeft:"8px"}} src={Upload} /> Post </div></button>
+  <button onClick={handleAddComment}><div style={{display:"flex",alignItems:"center",gap:"4px",padding:"1px"}}><img style={{marginLeft:"4px"}} src={Upload} /> Post </div></button>
 </div>
 {(isMobile && !showAllComments ? video.comments.slice(0, 1) : video.comments).map((c) => (
   <div key={c.commentId} className="comment">
@@ -192,19 +191,19 @@ const handleDeleteComment = async (commentId) => {
         }}
       >
         {editingCommentId === c.commentId ? (
-          <div style={{ display: "flex", alignItems: "center", gap: "8px", padding: "2px" }}>
-            <img style={{ marginLeft: "8px" }} src={Save} alt="Save" /> Save
+          <div style={{ display: "flex", alignItems: "center", gap: "4px", padding: "1px" }}>
+            <img style={{ marginLeft: "4px" }} src={Save} alt="Save" /> Save
           </div>
         ) : (
-          <div style={{ display: "flex", alignItems: "center", gap: "8px", padding: "2px" }}>
-            <img style={{ marginLeft: "8px" }} src={Edit} alt="Edit" /> Edit
+          <div style={{ display: "flex", alignItems: "center", gap: "4px", padding: "1px" }}>
+            <img style={{ marginLeft: "4px" }} src={Edit} alt="Edit" /> Edit
           </div>
         )}
       </button>
 
       <button onClick={() => handleDeleteComment(c.commentId)}>
-        <div style={{ display: "flex", alignItems: "center", gap: "8px", padding: "2px" }}>
-          <img style={{ marginLeft: "8px" }} src={Delete} alt="Delete" /> Delete
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <img style={{marginRight:"4px"}} src={Delete} alt="Delete" /> Delete
         </div>
       </button>
     </div>
