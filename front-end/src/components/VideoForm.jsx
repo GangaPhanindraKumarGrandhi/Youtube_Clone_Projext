@@ -1,13 +1,15 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 
 function VideoForm() {
   const navigate = useNavigate();
+   // Extract video ID from URL if editing
   const { id } = useParams();
   const isEdit = Boolean(id);
-
+// Initial form state for video details
   const [formData, setFormData] = useState({
     title: "",
     category: "",
@@ -21,30 +23,30 @@ function VideoForm() {
     likes: "",
     dislikes: "",
   });
-
+  // If in edit mode, fetch existing video data and pre-fill form
   useEffect(() => {
     if (isEdit) {
       axios.get(`http://localhost:5000/api/videos/${id}`)
         .then(res => setFormData(res.data))
         .catch(err => console.error("Error fetching video for edit:", err));
     }
-  }, [id]);
-
+  }, [id, isEdit]);
+  // Handle changes in input fields and update form state
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-
+ // Handle form submission for both creating and editing videos
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       if (isEdit) {
         await axios.put(`http://localhost:5000/api/videos/${id}`, formData);
-        alert("Video updated successfully");
+        toast.success("Video updated successfully");
       } else {
         await axios.post("http://localhost:5000/api/videos", formData);
-        alert("Video posted successfully");
+        toast.success("Video posted successfully");
       }
-      navigate("/ChannelPage");
+      navigate("/viewChannel");
     } catch (err) {
       console.error("Error submitting video:", err);
     }
@@ -56,7 +58,7 @@ function VideoForm() {
         <div className="videoHeading">
             <h2>{isEdit ? "Edit Video" : "Add New Video"}</h2>
         </div>
-        <div className="inputFields">
+        <div className="inputFields"> 
             <form onSubmit={handleSubmit}>
           <h4>Title:</h4>
           <input type="text" name="title" value={formData.title} onChange={handleChange} required />
@@ -94,10 +96,7 @@ function VideoForm() {
             <button type="submit">{isEdit ? "Update" : "Post"}</button>
           </div>
         </form>
-
         </div>
-           
-        
       </div>
     </div>
   );

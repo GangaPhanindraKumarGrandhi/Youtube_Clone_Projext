@@ -1,63 +1,92 @@
-import { StrictMode } from 'react'
+import { StrictMode,Suspense,lazy } from 'react'
 import { createRoot } from 'react-dom/client'
-import App from './App.jsx'
+import { ToastContainer } from 'react-toastify'
+import "react-toastify/dist/ReactToastify.css"
 import {createBrowserRouter,RouterProvider} from 'react-router-dom'
-import LoginUser from './components/Login.jsx'
-import VideoPlay from './components/VideoPLay.jsx'
-import Signup from './components/Signup.jsx'
-import CreateChannel from './components/CreateChannel.jsx';
 import './App.css'
-import ChannelPage from './components/ChannelPage.jsx'
+
+
+const App = lazy(()=> import('./App.jsx'))
+const LoginUser = lazy(()=> import("./components/Login.jsx"))
+const VideoPlay = lazy(()=>import("./components/VideoPLay.jsx"))
+const Signup = lazy(()=> import("./components/Signup.jsx"))
+const CreateChannel = lazy(()=>import("./components/CreateChannel.jsx"))
+const ChannelPage = lazy(()=>import("./components/ChannelPage.jsx"))
+const MainContent = lazy(()=>import("./components/MainContent.jsx"))
+const VideoForm = lazy(()=> import("./components/VideoForm.jsx"))
+const NotFound = lazy(()=>import("./components/NotFoundPage.jsx"))
 import { UserProvider } from './context/UserContext';
-import MainContent from './components/MainContent.jsx'
-import VideoForm from './components/VideoForm.jsx'
 
-
+export const Loading = ()=><div style={{padding:"50px",textAlign:"center"}}>Loading..</div>
 const appRoute = createBrowserRouter([
   {
     path:"/",
-    element:<App/>,
-    children:[
-      {
-        path:"/",
-        element:<MainContent />
-      },
-      {
-       path:"/videos/:id",
-       element:<VideoPlay/>
-      },
-      {
-         path:"/viewChannel",
-         element:<ChannelPage/>
-      }
-    ]
+    element:(
+      <Suspense fallback={<Loading/>}>
+        <App/>
+      </Suspense>
+    ),
+    children: [
+      { path: "/", element: <MainContent /> },
+      { path: "/videos/:id", element: <VideoPlay /> },
+      { path: "/viewChannel", element: <ChannelPage /> },
+    ],
   },
   {
     path:"/login",
-    element:<LoginUser/>
+    element:(
+      <Suspense fallback={<Loading/>}>
+        <LoginUser/>
+      </Suspense>
+    )
   },
   {
     path:"/signup",     
-    element:<Signup/>
+    element:(
+      <Suspense fallback={<Loading/>}>
+        <Signup/>
+      </Suspense>
+    )
   },
   {
   path: "/channel/create",
-  element: <CreateChannel />
+  element:(
+    <Suspense fallback={<Loading/>}>
+      <CreateChannel />
+    </Suspense>
+  )
 },
 {
   path:"/create-video",
-  element:<VideoForm/>
+  element:(
+    <Suspense fallback={<Loading/>}>
+      <VideoForm/>
+    </Suspense>
+  )
 },
 {
   path:"/edit-video/:id",
-  element:<VideoForm/>
+  element:(
+    <Suspense fallback={<Loading/>}>
+      <VideoForm/>
+    </Suspense>
+  )
+},
+{
+  path:"*",
+element:(
+  <Suspense fallback={<Loading/>}>
+    <NotFound/>
+  </Suspense>
+)
 }
 ])
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <UserProvider> {/* ✅ Wrap entire app in provider */}
+    <UserProvider> {/* Wrap entire app in provider */}
       <RouterProvider router={appRoute} />
+      <ToastContainer position="top-right" autoClose={3000} />
     </UserProvider>
   </StrictMode>,
 )

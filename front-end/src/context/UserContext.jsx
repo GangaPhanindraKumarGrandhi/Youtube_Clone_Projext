@@ -1,39 +1,43 @@
 import { createContext, useState, useEffect } from "react";
 
-// Create the context
+// Create a context for user authentication data
 const UserContext = createContext();
-export function UserProvider({ children }) {
-  const [user, setUser] = useState(null); // user: { id, name, email, channelData }
 
-  // Load user from localStorage on refresh
+// Context provider component to wrap around parts of the app needing access to user data
+export function UserProvider({ children }) {
+  const [user, setUser] = useState(null); // `user` object could include id, name, email, channelData, etc.
+
+  // On component mount, try to restore user data from localStorage (for persistence after refresh)
   useEffect(() => {
     const storedUser = localStorage.getItem("loggedUser");
     if (storedUser) {
-      setUser(JSON.parse(storedUser));
+      setUser(JSON.parse(storedUser)); // Convert back from string to object
     }
   }, []);
 
-  // Save user to localStorage when user state changes
+  // On user state change, store or remove from localStorage
   useEffect(() => {
     if (user) {
-      localStorage.setItem("loggedUser", JSON.stringify(user));
+      localStorage.setItem("loggedUser", JSON.stringify(user)); // Save user data
     } else {
-      localStorage.removeItem("loggedUser");
+      localStorage.removeItem("loggedUser"); // Clear on logout
     }
   }, [user]);
 
-  // Logout handler
+  // Logout function clears both state and localStorage
   const logout = () => {
     setUser(null);
     localStorage.removeItem("loggedUser");
   };
 
   return (
+    // Provide `user`, `setUser`, and `logout` to children via context
     <UserContext.Provider value={{ user, setUser, logout }}>
       {children}
     </UserContext.Provider>
   );
 }
 
-export {UserContext}
-export default  UserContext
+// Export context and provider
+export { UserContext };
+export default UserContext;

@@ -346,16 +346,14 @@ a{
     gap: 2px;
   }
 }
-
 .headalign3 button {
-  font-size: 16px;
+  font-size: 15px;
   width: 100px;
-  height: 30px;
+  height: 28px;
   border-radius: 10px;
   cursor: pointer;
   border: none;
 }
-
 .headalign3 button:hover {
   background-color: black;
   color: white;
@@ -1251,6 +1249,7 @@ margin-bottom: 10px;
   background-color:rgb(37, 32, 32);
   color: white;
   align-items: center;
+  font-size: 12px;
   gap: 5px;
 }
 .logoutbutton{
@@ -1461,6 +1460,14 @@ margin-bottom: 10px;
   font-family: sans-serif;
   margin: 5px;
 }
+@media(max-width:475px){
+  .channelLogo{
+    margin-top: 20px;
+    height: 120px;
+    font-size: 70px;
+    
+  }
+}
 .userChannelInformation{
   font-family: sans-serif;
   margin-right: 10px;
@@ -1666,4 +1673,24 @@ margin-bottom: 10px;
 }
 .videoSubmitbtn button:hover{
   background-color: #333;
+}
+.notfound{
+  margin-top: 50px;
+  font-family: sans-serif;
+  text-align: center;
+}
+.notfound button{
+  margin-top: 40px;
+  cursor: pointer;
+  width: 100px;
+  height: 30px;
+  border: none;
+  border-radius: 10px;
+  background-color: blue;
+  color:white;
+  font-weight: bold;
+}
+.notfound button:hover{
+  background-color: rgb(65, 30, 172);
+  
 }

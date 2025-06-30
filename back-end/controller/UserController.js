@@ -1,15 +1,15 @@
-// UserController.js
 import User from "../models/UserData_model.js";
 import Logged from "../models/Logged_Model.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
-// Password strength checker (optional but good)
+// Password validation function
 const isValidPassword = (password) => {
   const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
   return regex.test(password);
 };
 
+// Register a new user
 export async function register(req, res) {
   try {
     const { UserId, UserName, Email, Password, avtar, channels } = req.body;
@@ -26,9 +26,10 @@ export async function register(req, res) {
       });
     }
 
-    // 🔐 Hash password before saving
+    // Hash password
     const hashedPassword = await bcrypt.hash(Password, 10);
 
+    // Create new user
     const newUser = await User.create({
       UserId,
       UserName,
@@ -45,6 +46,7 @@ export async function register(req, res) {
   }
 }
 
+// User login
 export async function login(req, res) {
   try {
     const { Email, Password } = req.body;
@@ -54,18 +56,19 @@ export async function login(req, res) {
       return res.status(401).json({ message: "Invalid credentials" });
     }
 
+    // Compare entered password with hashed password
     const isPasswordMatch = await bcrypt.compare(Password, user.Password);
     if (!isPasswordMatch) {
       return res.status(401).json({ message: "Invalid credentials" });
     }
 
+    // Generate token
     const token = jwt.sign(
       { Email: user.Email, UserName: user.UserName },
-      "Youtube", // Use process.env.JWT_SECRET in production
+      "Youtube", // Use environment variable in production
       { expiresIn: "1d" }
     );
 
-    // ✅ Optional: Track login (but do NOT store password)
     await Logged.create({ Email: user.Email, Username: user.UserName });
 
     res.json({ message: "Login successful", token });
@@ -75,6 +78,7 @@ export async function login(req, res) {
   }
 }
 
+// User logout
 export async function logout(req, res) {
   try {
     const token = req.headers.authorization?.split(" ")[1];

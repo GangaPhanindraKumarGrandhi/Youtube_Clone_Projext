@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+// Schema for storing video data
 
 const VedioSchema =  mongoose.Schema({
   VedioId: String,
@@ -20,6 +20,6 @@ const VedioSchema =  mongoose.Schema({
     default: [],
   }
 });
-
+// Create and export model
 const model = mongoose.model("Vedio",VedioSchema)
 export default model

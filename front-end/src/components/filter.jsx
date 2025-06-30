@@ -1,17 +1,18 @@
-import { useEffect,useRef } from "react";
+import { useEffect, useRef } from "react";
 
 function Filter({ sidebarOpen, onCategorySelect, selectedCategory }) {
   const scrollRef = useRef(null);
   const leftBtnRef = useRef(null);
   const rightBtnRef = useRef(null);
 
+  // List of video categories
   const categories = [
-    "All", "Music", "Movie", "CSS",
-    "Education", "React", "JavaScript", "Data Structures", "4k Resolution", "Villages",
-    "Lakes", "Python", "Bollywood Music", "Theme music", "Dramedy",
-    "Recently uploaded", "Watched", "New to you"
+    "All", "Music", "Hindi Songs", "Indian Pop Music", "Movie", "CSS",
+    "Education", "JavaScript", "Data Structures", "Recruitment",
+    "Java", "Python", "Comedy Scenes", "Recently uploaded", "New To You",
   ];
 
+  // Show/hide scroll buttons based on scroll position
   const updateButtons = () => {
     const scrollContainer = scrollRef.current;
     if (!scrollContainer) return;
@@ -29,23 +30,29 @@ function Filter({ sidebarOpen, onCategorySelect, selectedCategory }) {
     }
   };
 
+  // Scroll left and right smoothly
   const scrollLeft = () => scrollRef.current?.scrollBy({ left: -200, behavior: "smooth" });
   const scrollRight = () => scrollRef.current?.scrollBy({ left: 200, behavior: "smooth" });
 
+  // Attach scroll event listener when component mounts or sidebar state changes
   useEffect(() => {
     const scrollContainer = scrollRef.current;
     if (!scrollContainer) return;
 
     scrollContainer.addEventListener("scroll", updateButtons);
-    updateButtons();
+    updateButtons(); // Initial check
 
     return () => scrollContainer.removeEventListener("scroll", updateButtons);
   }, [sidebarOpen]);
 
   return (
     <div className={`filterButton ${sidebarOpen ? "expanded" : ""}`}>
-      <button ref={leftBtnRef} className="scroll-btn left" onClick={scrollLeft}>{"<"}</button>
+      {/* Scroll Left Button */}
+      <button ref={leftBtnRef} className="scroll-btn left" onClick={scrollLeft}>
+        {"<"}
+      </button>
 
+      {/* Scrollable Category Buttons */}
       <div className="scroll-container" ref={scrollRef}>
         {categories.map((category) => (
           <button
@@ -58,7 +65,10 @@ function Filter({ sidebarOpen, onCategorySelect, selectedCategory }) {
         ))}
       </div>
 
-      <button ref={rightBtnRef} className="scroll-btn right" onClick={scrollRight}>{">"}</button>
+      {/* Scroll Right Button */}
+      <button ref={rightBtnRef} className="scroll-btn right" onClick={scrollRight}>
+        {">"}
+      </button>
     </div>
   );
 }

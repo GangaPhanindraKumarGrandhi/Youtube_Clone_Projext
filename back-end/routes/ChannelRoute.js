@@ -1,12 +1,12 @@
-// routes/ChannelRoute.js
 import express from "express";
-import { createChannel } from "../controller/ChannelController.js";
-import { getChannelByUser } from "../controller/ChannelController.js";
+import { createChannel, getChannelByUser } from "../controller/ChannelController.js";
 
 const router = express.Router();
 
-// Create channel (only after login)
+// Route to create a new channel
 router.post("/channel/create", createChannel);
+
+// Route to get a channel by user email
 router.get("/channel/user/:email", getChannelByUser);
 
 export default router;

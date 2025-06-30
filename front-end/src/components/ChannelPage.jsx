@@ -1,27 +1,24 @@
 import axios from "axios"
 import { useState, useEffect } from "react"
-import { useOutletContext } from "react-router-dom"
+import { useOutletContext,useNavigate } from "react-router-dom"
 import Content from "./Content"
 import Bell from "../Images/subscribe_bell.png"
 import Post from "../Images/upload.png"
-import { useNavigate } from "react-router-dom"
 
 function ChannelPage() {
     const navigate = useNavigate()
     const [channelData, setChannelData] = useState(null)
     const { sidebarOpen } = useOutletContext()
     const [channelName, setChannelname] = useState("")
-    
+    // Flag to indicate channel-specific view in Content component
     let channelbtn = true
-
     useEffect(() => {
         const email = localStorage.getItem("userEmail")
-
         if (!email) {
             console.log("No user email found in localStorage")
             return
         }
-
+// Fetch user's channel details by email
         const displayChannel = async () => {
             try {
                 const response = await axios.get(`http://localhost:5000/api/channel/user/${email}`)
@@ -51,10 +48,7 @@ function ChannelPage() {
                     <div style={{display:"flex"}}>
                         <button><img src={Bell} />Subscribe</button>
                     <button onClick={()=> navigate("/create-video")}><img src={Post} />Add Video</button>
-
-                    </div>
-                    
-                    
+                    </div>                   
                 </div>
             </div>
             <div className={!sidebarOpen?"bar":"barExpanded"}>
@@ -65,8 +59,7 @@ function ChannelPage() {
                     <button>Live</button>
                     <button>Playlists</button>
                     <button>Posts</button>
-                </div>
-                
+                </div>              
             </div>
             <div style={{marginTop:"330px"}} className={!sidebarOpen?"":"contentExpanded"}>
                 <div >

@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+// Define schema for user data
 const UserSchema = new mongoose.Schema({
   UserId: { type: String, required: true },
   UserName: { type: String, required: true },
@@ -9,7 +9,7 @@ const UserSchema = new mongoose.Schema({
   channels: { type: Array, default: [] }
 });
 
-// Model name is "UserData", and it will be stored as a collection like "userdatas" in MongoDB
+// Create and export model
 const UserModel = mongoose.model("UserData", UserSchema);
 
 export default UserModel;

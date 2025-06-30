@@ -1,24 +1,32 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
-import Delete from "../Images/delete.png"
-import Edit from "../Images/edit.png"
-import axios from "axios"
+import Delete from "../Images/delete.png";
+import Edit from "../Images/edit.png";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 function Videodetails(props) {
-  const [dotClickedVideoId, setDotClickedVideoId] = useState(null);
+  const [imageLoading,setImageLoading] = useState(true)
+  const [dotClickedVideoId, setDotClickedVideoId] = useState(null); // Tracks the dropdown state for a specific video
   const cardRef = useRef(null);
-  const handleEdit = () => {
-  window.location.href = `/edit-video/${props.product._id}`;
-};
-const handleDelete = async () => {
-  try {
-    await axios.delete(`http://localhost:5000/api/videos/${props.product._id}`);
-    window.location.reload();
-  } catch (err) {
-    console.error("Delete error:", err);
-  }
-};
 
+  // Handle edit navigation
+  const handleEdit = () => {
+    window.location.href = `/edit-video/${props.product._id}`;
+  };
+
+  // Handle video deletion
+  const handleDelete = async () => {
+    try {
+      await axios.delete(`http://localhost:5000/api/videos/${props.product._id}`);
+      toast.success("Video deleted successfully");
+      window.location.reload(); // Refresh page to reflect deletion
+    } catch (err) {
+      console.error("Delete error:", err);
+    }
+  };
+
+  // Convert raw view count string into formatted view counts (e.g., 1.5K, 2M)
   function formatViews(viewString) {
     if (!viewString) return "0";
     const cleaned = viewString.replace(/[^\d]/g, "");
@@ -29,7 +37,7 @@ const handleDelete = async () => {
     return num.toString();
   }
 
-  // Close dropdown if the card is scrolled out of view
+  // Automatically close dropdown if card scrolls out of view
   useEffect(() => {
     const handleScroll = () => {
       if (!cardRef.current) return;
@@ -45,12 +53,9 @@ const handleDelete = async () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [dotClickedVideoId, props.product._id]);
 
+  // Toggle the dropdown menu
   const handleDotClick = () => {
-    if (dotClickedVideoId === props.product._id) {
-      setDotClickedVideoId(null);
-    } else {
-      setDotClickedVideoId(props.product._id);
-    }
+    setDotClickedVideoId(prev => (prev === props.product._id ? null : props.product._id));
   };
 
   const isDropdownOpen = dotClickedVideoId === props.product._id;
@@ -60,15 +65,23 @@ const handleDelete = async () => {
       <div className={`vimage ${props.varient}`}>
         <div className={`sampleimge ${props.varient}`}>
           <Link to={`/videos/${props.product._id}`}>
+          {imageLoading && (
+            <div style={{padding:"50px",textAlign:"center"}}>
+              Loading...
+            </div>
+          )}
             <img
               src={props.product.thumbnailUrl}
               className={`samvideoImage ${props.varient}`}
               alt="thumbnail"
+              onLoad={()=>setImageLoading(false)}
+              onError={()=>setImageLoading(false)}
             />
           </Link>
         </div>
 
         <div className={`samdeatails ${props.varient}`}>
+          {/* Channel logo */}
           <div className={`samcontainer ${props.varient}`}>
             <img
               src={props.product.channelLogo}
@@ -77,12 +90,14 @@ const handleDelete = async () => {
             />
           </div>
 
+          {/* Video title and info */}
           <div className={`sampledetails ${props.varient}`}>
             <h4 className="truncated-multiline">{props.product.title}</h4>
             <p>{props.product.uploader}</p>
             <p>{formatViews(props.product.views)} views</p>
           </div>
 
+          {/* Options menu for channel owner */}
           {props.channelbtn && (
             <div style={{ position: "relative" }}>
               <button 
@@ -90,7 +105,6 @@ const handleDelete = async () => {
                 className="channeldotbtn"
               >
                 ⋮
-                {/* or use image: <img src={ThreeDotsIcon} alt="options" /> */}
               </button>
 
               {isDropdownOpen && (
@@ -107,9 +121,12 @@ const handleDelete = async () => {
                     zIndex: 10,
                   }}
                 >
-                  {/* Replace below with Edit/Delete options */}
-                  <button onClick={handleEdit}><img src={Edit} />Edit</button>
-                  <button onClick={handleDelete}><img src={Delete} />Delete</button>
+                  <button onClick={handleEdit}>
+                    <img src={Edit} alt="edit" />Edit
+                  </button>
+                  <button onClick={handleDelete}>
+                    <img src={Delete} alt="delete" />Delete
+                  </button>
                 </div>
               )}
             </div>
