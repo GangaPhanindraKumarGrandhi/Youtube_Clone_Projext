@@ -3,25 +3,47 @@ import Bello_Icon from "../Images/bell.png";
 import Search from "../Images/searchsam.png";
 import Logout from "../Images/logout.png";
 import Login from "../Images/login.png";
+import Google from "../Images/google.webp"
+import Studio from "../Images/studio.png"
+import Switch from "../Images/switch.png"
+import Membership from "../Images/membership.jpeg"
+import Data from "../Images/data.jpg"
+import Location from "../Images/map.jpg"
+import Restricted from "../Images/restricted.png"
+import Keyboard from "../Images/keyboard.png"
+import Setting from "../Images/setting.png"
+import Help from "../Images/help.png"
+import Feedback from "../Images/feedback.jpg"
 
 import { Link, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect,useContext } from "react";
 import Sidebar from "./Sidebar";
+import UserContext from "../context/UserContext";
 import axios from "axios";
 import { toast } from "react-toastify";
+import ViewChannelContext from "../context/ViewChannelContext";
+
 
 function Head({ side, searchTerm, setSearchTerm, sidebarOpen, sidePlay1 }) {
+
+  const { user, logout} = useContext(UserContext);
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
   const [searchClicked, setSearchClicked] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 700);
-  const [viewchannel, setView] = useState(false);
+  const {viewChannel,setViewChannel} = useContext(ViewChannelContext)
   const [showUserSidebar, setShowUserSidebar] = useState(false);
-
   const navigate = useNavigate();
-  const userEmail = localStorage.getItem("userEmail");
-  const username = localStorage.getItem("userName");
-  const userFirstLetter = userEmail ? userEmail.charAt(0).toUpperCase() : "";
+  const userAvatar = user?.avtar
+  const userEmail = user?.Email
+  const username = user?.UserName
+  const userFirstLetter =  username ? username.charAt(0).toUpperCase() : "";
 
+  function TruncatedText(text,textlength) {
+  const maxLength = textlength;
+  const displayText = text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
+
+  return <span>{displayText}</span>;
+}
   // Handle screen resize and update mobile state
   const handleResize = () => {
     const mobile = window.innerWidth <= 700;
@@ -44,21 +66,20 @@ function Head({ side, searchTerm, setSearchTerm, sidebarOpen, sidePlay1 }) {
   useEffect(() => {
     const checkUserChannel = async () => {
       const token = localStorage.getItem("token");
-      const email = localStorage.getItem("userEmail");
-      if (!token || !email) return setView(false);
+      const email = user?.Email
+      if (!token || !email) return setViewChannel(false);
 
       try {
         const res = await axios.get(`http://localhost:5000/api/channel/user/${email}`);
-        setView(res.data.exists); // true if user has a channel
-        console.log(res.data.channel);
+        setViewChannel(res.data.exists); 
       } catch (err) {
         console.error("Error checking user channel:", err);
-        setView(false);
+        setViewChannel(false);
       }
     };
 
     checkUserChannel();
-  }, []);
+  }, [user,setViewChannel]);
 
   // Handle search input change
   const handleInputChange = (event) => {
@@ -71,9 +92,8 @@ function Head({ side, searchTerm, setSearchTerm, sidebarOpen, sidePlay1 }) {
 
   // Create channel or warn user if already exists
   const handleCreateChannelClick = () => {
-    if (viewchannel) {
-      const confirmed = window.confirm("A channel already exists. Do you want to create an additional one?");
-      if (confirmed) navigate("/channel/create");
+    if (viewChannel) {
+      toast.info("A channel already exists for you.")
     } else {
       if (userEmail) {
         navigate("/channel/create");
@@ -88,7 +108,7 @@ function Head({ side, searchTerm, setSearchTerm, sidebarOpen, sidePlay1 }) {
     const token = localStorage.getItem("token");
     try {
       await axios.post("http://localhost:5000/api/user/logout", {}, {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: { Authorization: `JWT ${token}` },
       });
     } catch (err) {
       console.error("Logout API failed:", err);
@@ -96,9 +116,7 @@ function Head({ side, searchTerm, setSearchTerm, sidebarOpen, sidePlay1 }) {
 
     // Clear session data
     localStorage.removeItem("token");
-    localStorage.removeItem("userEmail");
-    localStorage.removeItem("userName");
-
+    logout();
     setShowUserSidebar(false);
     toast.success("You have been logged out successfully");
     navigate("/");
@@ -107,10 +125,10 @@ function Head({ side, searchTerm, setSearchTerm, sidebarOpen, sidePlay1 }) {
   const shouldShowInput = !isMobile || isSearchExpanded;
   const containerClass = `headalign2 ${isMobile ? (isSearchExpanded ? "expanded" : "collapsed") : ""}`;
 
+
   return (
     <header className="container1">
       <div className="head">
-        {/* Logo + Toggle Button */}
         <div className={searchClicked && isSearchExpanded ? "headalign1Search" : "headalign1"}>
           <button onClick={side}>☰</button>
           <img src={YoutubeLogo} alt="Youtube Logo" className="imageLogo" />
@@ -130,7 +148,7 @@ function Head({ side, searchTerm, setSearchTerm, sidebarOpen, sidePlay1 }) {
           {shouldShowInput && searchTerm && (
             <span className="cross" onClick={clearSearch}>&times;</span>
           )}
-          <div className="search-icon" onClick={toggleSearchBar}>
+          <div className="search-icon" onClick={isMobile ? toggleSearchBar : undefined}>
             <img src={Search} alt="Search" className="image1" />
           </div>
         </div>
@@ -142,9 +160,12 @@ function Head({ side, searchTerm, setSearchTerm, sidebarOpen, sidePlay1 }) {
 
           {userEmail ? (
             <div className="user-avatar">
-              <button onClick={() => setShowUserSidebar(!showUserSidebar)}>
-                {userFirstLetter}
-              </button>
+              
+              {userAvatar != ""?(
+                  <img src={userAvatar} style={{marginBottom:"10px"}} alt=""  className="avatarimage" onClick={() => setShowUserSidebar(!showUserSidebar)}/>
+                ):(
+                  <button onClick={() => setShowUserSidebar(!showUserSidebar)}>{userFirstLetter}</button>
+                )}
             </div>
           ) : (
             <Link to="/login">
@@ -160,12 +181,19 @@ function Head({ side, searchTerm, setSearchTerm, sidebarOpen, sidePlay1 }) {
       {showUserSidebar && (
         <div className="user-sidebar">
           <div className="userDetails">
-            <div className="user-avatar" style={{ margin: "0px" }}>
-              <button>{userFirstLetter}</button>
+            <div style={{display:"flex",flexDirection:"row",gap:"10px"}}>
+              <div className="user-avatar" style={{ margin: "0px" }}>
+                {userAvatar != ""?(
+                  <img src={userAvatar} alt=""  className="avatarimage"/>
+                ):(
+                  <button>{userFirstLetter}</button>
+                )}
+              
             </div>
-            <div style={{ marginTop: "10px" }}>
-              <h3>{username}</h3>
-              <h4>{userEmail}</h4>
+            <div style={{ marginTop: "10px" }} className="truncated-multiline">
+              <h3>{TruncatedText(username,15)}</h3>
+              <h4 >{TruncatedText(userEmail,20)}</h4>
+            </div>
             </div>
             <button
               style={{ marginLeft: "12px", marginRight: "12px" }}
@@ -175,7 +203,7 @@ function Head({ side, searchTerm, setSearchTerm, sidebarOpen, sidePlay1 }) {
               <img src={Logout} alt="Logout" />Logout
             </button>
 
-            {viewchannel && (
+            {viewChannel && (
               <Link to="/viewChannel">
                 <button className="logoutbutton">View Channel</button>
               </Link>
@@ -185,23 +213,23 @@ function Head({ side, searchTerm, setSearchTerm, sidebarOpen, sidePlay1 }) {
           {/* Sidebar Sections */}
           <div className="contentright">
             <div className="rightbtn">
-              <button>Google Account</button>
-              <button>Switch Account</button>
+              <button><img src={Google} alt="Google" className="rightsideimg"/>Google Account</button>
+              <button><img src={Switch} alt="Switch"  className="rightsideimg"/>Switch Account</button>
             </div>
             <div className="rightbtn">
-              <button>Youtube Studio</button>
-              <button>Purchases and memberships</button>
-              <button>Your data in Youtube</button>
+              <button><img src={Studio} alt="Studio"  className="rightsideimg"/>Youtube Studio</button>
+              <button><img src={Membership} alt="Membership"  className="rightsideimg"/>Memberships</button>
+              <button><img src={Data} alt="Data"  className="rightsideimg"/>Your data in Youtube</button>
             </div>
             <div className="rightbtn">
-              <button>Location: India</button>
-              <button>Restricted Mode: Off</button>
-              <button>Keyboard Shortcuts</button>
+              <button><img src={Location} alt="location"  className="rightsideimg"/>Location: India</button>
+              <button><img src={Restricted} alt="Mode"  className="rightsideimg"/>Restricted Mode: Off</button>
+              <button><img src={Keyboard} alt="keyboard"  className="rightsideimg"/>Keyboard Shortcuts</button>
             </div>
             <div className="rightbtn">
-              <button>Settings</button>
-              <button>Help</button>
-              <button>Send feedback</button>
+              <button><img src={Setting} alt="Setting"  className="rightsideimg"/>Settings</button>
+              <button><img src={Help} alt="help"  className="rightsideimg"/>Help</button>
+              <button><img src={Feedback} alt="feedback"  className="rightsideimg"/>Send feedback</button>
             </div>
           </div>
         </div>

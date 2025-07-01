@@ -9,7 +9,7 @@ import ChannelRoute from "./routes/ChannelRoute.js";
 const app = express();
 
 // Middleware
-app.use(express.json());
+app.use(express.json({ limit: '5mb' }));
 app.use(cors({
   origin: 'http://localhost:5173' // Allow requests from frontend
 }));

@@ -18,13 +18,15 @@ Youtube Project/
 │  |  ├── context/
 |  |  ├── hook/
 |  |  ├── Images/
+|  |  |── utils/
 |  |  ├── App.css
 │  |  ├── App.jsx
 |  |  ├── index.css
 │  |  └── main.jsx
 ├── Execution_Video
 ├── README.md
-├── testing Screenshots
+├── testing Screenshots 
+|── Execution Video
 
 
 
@@ -34,6 +36,12 @@ Youtube Project/
 -- User Signup/Login (JWT-based)
 -- Password strength validation
 -- Protected video upload and comment actions
+
+# User Login/Signup 
+-- Allow users to log in and log out as needed
+-- Allow users to register with or without a Avtar(profile photo)
+   -- If the user uploads an image, it will be displayed as the Avtar
+   -- If not, the first letter of the username will be displayed as the Avtar
 
 # Video Functionality
 -- Upload, edit, and delete videos
@@ -48,6 +56,10 @@ Youtube Project/
 # Channels
 -- Create a channel
 -- View channel info and related videos
+-- Allow users to delete their channel
+-- Allow users to create a channel with or without a channel logo (channel banner)
+   -- If the user uploads an image, it will be displayed as the logo
+   -- If not, the first letter of the username will be displayed as the logo
 
 # State Management
 -- Context API used for user login state
@@ -56,6 +68,11 @@ Youtube Project/
 # Responsive UI
 -- Adaptive layout for mobile/tablet
 -- Collapsible sidebar and expandable search
+
+# Filter Videos
+-- Allow users to filter/search videos based on category buttons and search input
+-- When a user adds a new video, the filter bar updates to include the new category 
+-- If a category has no videos (i.e., length is 0), its filter button is removed automatically
 
 
 ####    Technologies Used

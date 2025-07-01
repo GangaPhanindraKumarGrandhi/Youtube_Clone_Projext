@@ -5,7 +5,7 @@ const ChannelData = mongoose.Schema({
     "channelName":String,
     "Owner":String,
     "description":String,
-    "channelBanner":String,
+    "channelBanner":{type:String, default:""},
     "subscribers":Number,
     "videos":Array
 })

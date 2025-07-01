@@ -1,14 +1,14 @@
-import { useState } from "react";
+import { useState,useContext } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
-
+import { UserContext } from "../context/UserContext";
 function LoginUser() {
   const [userName, setUserName] = useState(""); // Local state for username input
   const [email, setEmail] = useState("");       // Local state for email input
   const [password, setPassword] = useState(""); // Local state for password input
   const navigate = useNavigate();
-
+  const { fetchUserProfile } = useContext(UserContext);
   // Handle form submission
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -22,6 +22,7 @@ function LoginUser() {
 
       const token = res.data.token;
       localStorage.setItem("token", token);
+      await fetchUserProfile();
 
       // Step 2: Use token to fetch profile
       const profileRes = await axios.get("http://localhost:5000/api/user/profile", {
@@ -30,9 +31,7 @@ function LoginUser() {
         },
       });
 
-      const user = profileRes.data.user;
-      localStorage.setItem("userName", user.UserName);
-      localStorage.setItem("userEmail", user.Email);
+      const user = profileRes.data.user; 
 
       console.log("Logged in user profile:", user);
 

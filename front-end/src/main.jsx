@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'
 import { ToastContainer } from 'react-toastify'
 import "react-toastify/dist/ReactToastify.css"
 import {createBrowserRouter,RouterProvider} from 'react-router-dom'
+import { ViewChannelProvider } from './context/ViewChannelContext.jsx'
 import './App.css'
 
 
@@ -85,8 +86,12 @@ element:(
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <UserProvider> {/* Wrap entire app in provider */}
-      <RouterProvider router={appRoute} />
-      <ToastContainer position="top-right" autoClose={3000} />
+      <ViewChannelProvider>
+        <RouterProvider router={appRoute} />
+      <ToastContainer position="top-right" autoClose={2000} />
+
+      </ViewChannelProvider>
+      
     </UserProvider>
   </StrictMode>,
 )

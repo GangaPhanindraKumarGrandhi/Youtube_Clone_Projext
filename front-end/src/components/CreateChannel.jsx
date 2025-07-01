@@ -13,6 +13,19 @@ function CreateChannel() {
 
   const navigate = useNavigate();
 
+  const handleBannerUpload = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const base64String = reader.result;
+      setForm((prev) => ({ ...prev, channelBanner: base64String }));
+       
+    };
+    reader.readAsDataURL(file);
+  };
+
   // Handles input field changes
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -27,7 +40,7 @@ function CreateChannel() {
       // Send POST request to create a new channel
       const res = await axios.post("http://localhost:5000/api/channel/create", form, {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `JWT ${token}`,
         },
       });
 
@@ -67,12 +80,11 @@ function CreateChannel() {
             />
             <br />
 
-            <h4>Channel Banner URL:</h4>
+            <h4>Channel Banner:</h4>
             <input
-              type="text"
-              name="channelBanner"
-              onChange={handleChange}
-              required
+              type="file"
+              accept="image/*"
+              onChange={handleBannerUpload}
             />
             <br />
 

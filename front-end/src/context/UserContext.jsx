@@ -1,43 +1,50 @@
 import { createContext, useState, useEffect } from "react";
-
-// Create a context for user authentication data
+import axios from "axios";
+import { toast } from "react-toastify";
 const UserContext = createContext();
 
-// Context provider component to wrap around parts of the app needing access to user data
 export function UserProvider({ children }) {
-  const [user, setUser] = useState(null); // `user` object could include id, name, email, channelData, etc.
-
-  // On component mount, try to restore user data from localStorage (for persistence after refresh)
-  useEffect(() => {
-    const storedUser = localStorage.getItem("loggedUser");
-    if (storedUser) {
-      setUser(JSON.parse(storedUser)); // Convert back from string to object
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const fetchUserProfile = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setUser(null);
+      setLoading(false);
+      return;
     }
-  }, []);
+    try {
+      const res = await axios.get("http://localhost:5000/api/user/profile", {
+        headers: { Authorization: `JWT ${token}` },
+      });
 
-  // On user state change, store or remove from localStorage
-  useEffect(() => {
-    if (user) {
-      localStorage.setItem("loggedUser", JSON.stringify(user)); // Save user data
-    } else {
-      localStorage.removeItem("loggedUser"); // Clear on logout
+      const { UserName, Email, avtar } = res.data.user;
+      setUser({ UserName, Email, avtar });
+    } catch (err) {
+      console.error("User fetch failed:", err);
+      setUser(null);
+      localStorage.removeItem("token");
+      toast.error("Session expired.");
+    } finally {
+      setLoading(false);
     }
-  }, [user]);
-
-  // Logout function clears both state and localStorage
-  const logout = () => {
-    setUser(null);
-    localStorage.removeItem("loggedUser");
   };
 
+  const logout = () => {
+    setUser(null);
+    localStorage.removeItem("token");
+  };
+
+  useEffect(() => {
+    fetchUserProfile();
+  }, []);
+
   return (
-    // Provide `user`, `setUser`, and `logout` to children via context
-    <UserContext.Provider value={{ user, setUser, logout }}>
+    <UserContext.Provider value={{ user, setUser, logout, fetchUserProfile, loading }}>
       {children}
     </UserContext.Provider>
   );
 }
 
-// Export context and provider
 export { UserContext };
 export default UserContext;

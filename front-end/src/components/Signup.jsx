@@ -15,18 +15,32 @@ function Signup() {
 
   const navigate = useNavigate();
 
-  // Update form state on input change
+  // Update form fields
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Password must be strong
+  // Handle avatar upload and convert to base64
+  const handleAvatarUpload = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const base64String = reader.result;
+      setFormData((prev) => ({ ...prev, avtar: base64String }));
+    };
+    reader.readAsDataURL(file);
+  };
+
+  // Password validation
   const isValidPassword = (password) => {
-    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+    const regex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
     return regex.test(password);
   };
 
-  // Handle registration form submit
+  // Form submit handler
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -38,10 +52,15 @@ function Signup() {
     }
 
     try {
+      // Log the avatar (optional for debugging)
+      console.log("Submitting avatar base64:", formData.avtar.slice(0, 50));
+
       await axios.post("http://localhost:5000/api/user/register", formData);
       toast.success("Registration completed! Please log in");
       navigate("/login");
     } catch (err) {
+      console.error("Signup Error:", err);
+
       alert(err.response?.data?.message || "Signup failed");
     }
   };
@@ -62,7 +81,8 @@ function Signup() {
               placeholder="User ID"
               onChange={handleChange}
               required
-            /><br />
+            />
+            <br />
 
             <h4>UserName:</h4>
             <input
@@ -71,7 +91,8 @@ function Signup() {
               placeholder="Username"
               onChange={handleChange}
               required
-            /><br />
+            />
+            <br />
 
             <h4>Email:</h4>
             <input
@@ -80,7 +101,8 @@ function Signup() {
               placeholder="Email"
               onChange={handleChange}
               required
-            /><br />
+            />
+            <br />
 
             <h4>Password:</h4>
             <input
@@ -89,15 +111,16 @@ function Signup() {
               placeholder="Password"
               onChange={handleChange}
               required
-            /><br />
+            />
+            <br />
 
-            <h4>Avtar:</h4>
+            <h4>Avatar:</h4>
             <input
-              type="text"
-              name="avtar"
-              placeholder="Avatar URL"
-              onChange={handleChange}
-            /><br />
+              type="file"
+              accept="image/*"
+              onChange={handleAvatarUpload}
+            />
+            <br />
 
             <div className="videoSubmitbtn">
               <button type="submit">Register</button>

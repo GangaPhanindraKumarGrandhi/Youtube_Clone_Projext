@@ -10,14 +10,15 @@ export const createChannel = async (req, res) => {
     const token = req.headers.authorization?.split(" ")[1];
     if (!token) return res.status(401).json({ message: "Unauthorized" });
 
-    // Decode the token to get user email
+    // Decode the token to get user data
     const decoded = jwt.verify(token, "Youtube");
     const ownerEmail = decoded.Email;
+    const ownerName = decoded.UserName || "user";
 
-    // Generate a unique channel ID using timestamp (can replace with UUID)
-    const channelId = "channel_" + Date.now();
+    // Generate readable and consistent channelId like "@phanindra"
+    const channelId = "@" + ownerName.toLowerCase().replace(/\s+/g, "_");
 
-    // Create and save new channel document
+    // Create and save new channel
     const newChannel = await Channel.create({
       channelId,
       channelName,
@@ -28,8 +29,8 @@ export const createChannel = async (req, res) => {
       videos: [],
     });
 
-    // Respond with success message and channel data
     res.status(201).json({ message: "Channel created", channel: newChannel });
+
   } catch (error) {
     console.error("Channel creation error:", error);
     res.status(500).json({ message: "Server error", error: error.message });
@@ -51,5 +52,22 @@ export const getChannelByUser = async (req, res) => {
     }
   } catch (err) {
     res.status(500).json({ message: "Error checking channel", error: err.message });
+  }
+};
+
+export const deleteChannelByUser = async (req, res) => {
+  const { email } = req.params;
+
+  try {
+    const deleted = await Channel.deleteOne({ Owner: email });
+
+    if (deleted.deletedCount === 0) {
+      return res.status(404).json({ message: "Channel not found or already deleted" });
+    }
+
+    res.status(200).json({ message: "Channel deleted successfully" });
+  } catch (error) {
+    console.error("Channel delete error:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
   }
 };

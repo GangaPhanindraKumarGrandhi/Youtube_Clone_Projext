@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect,useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import UserContext from "../context/UserContext";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-
 function VideoForm() {
+  const {user} = useContext(UserContext)
   const navigate = useNavigate();
    // Extract video ID from URL if editing
   const { id } = useParams();
@@ -31,6 +32,28 @@ function VideoForm() {
         .catch(err => console.error("Error fetching video for edit:", err));
     }
   }, [id, isEdit]);
+
+  useEffect(() => {
+    if (!isEdit) {
+      const email = user?.Email
+      const username = user?.UserName
+      if (!email || !username) return;
+      
+
+      axios.get(`http://localhost:5000/api/channel/user/${email}`)
+        .then((res) => {
+          const channel = res.data.channel;
+          setFormData((prev) => ({
+            ...prev,
+            channelId: channel.channelId,
+            channelLogo: channel.channelBanner === "" ? channel.channelId[1].toUpperCase() : channel.channelBanner,
+            uploader: username,
+          }));
+        })
+        .catch((err) => console.error("Error loading channel info:", err));
+    }
+  }, [isEdit,user]);
+
   // Handle changes in input fields and update form state
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -38,6 +61,8 @@ function VideoForm() {
  // Handle form submission for both creating and editing videos
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // Store new category if it's not in default list
+    
     try {
       if (isEdit) {
         await axios.put(`http://localhost:5000/api/videos/${id}`, formData);
@@ -75,23 +100,14 @@ function VideoForm() {
           <h4>Description:</h4>
           <input type="text" name="description" value={formData.description} onChange={handleChange} required />
 
-          <h4>Channel ID:</h4>
-          <input type="text" name="channelId" value={formData.channelId} onChange={handleChange} required />
-
-          <h4>Channel Logo URL:</h4>
-          <input type="text" name="channelLogo" value={formData.channelLogo} onChange={handleChange} required />
-
-          <h4>Uploader Email:</h4>
-          <input type="text" name="uploader" value={formData.uploader} onChange={handleChange} required />
-
           <h4>Views:</h4>
-          <input type="number" name="views" value={formData.views} onChange={handleChange} required />
+          <input type="number" name="views" min="0" value={formData.views} onChange={handleChange} required />
 
           <h4>Likes:</h4>
-          <input type="number" name="likes" value={formData.likes} onChange={handleChange} required />
+          <input type="number" name="likes" min="0" value={formData.likes} onChange={handleChange} required />
 
           <h4>Dislikes:</h4>
-          <input type="number" name="dislikes" value={formData.dislikes} onChange={handleChange} required />
+          <input type="number" name="dislikes" min="0" value={formData.dislikes} onChange={handleChange} required />
           <div className="videoSubmitbtn">
             <button type="submit">{isEdit ? "Update" : "Post"}</button>
           </div>

@@ -1,16 +1,53 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef,useState } from "react";
+import defaultCategories from "../utils/categories";
+import axios from "axios";
 
 function Filter({ sidebarOpen, onCategorySelect, selectedCategory }) {
   const scrollRef = useRef(null);
   const leftBtnRef = useRef(null);
   const rightBtnRef = useRef(null);
+  const [allCategories, setAllCategories] = useState([]);
 
   // List of video categories
-  const categories = [
-    "All", "Music", "Hindi Songs", "Indian Pop Music", "Movie", "CSS",
-    "Education", "JavaScript", "Data Structures", "Recruitment",
-    "Java", "Python", "Comedy Scenes", "Recently uploaded", "New To You",
-  ];
+   useEffect(() => {
+    const fetchVideosAndBuildCategories = async () => {
+      try {
+        const res = await axios.get("http://localhost:5000/api/videos");
+        const videos = res.data;
+
+        // Get unique categories used in videos
+       // Normalize by lowercasing and trimming
+        const usedCategories = Array.from(
+          new Set(
+            videos.map((video) =>
+            video.category.trim().toLowerCase()
+            )
+         )
+        );
+
+      // Merge with defaultCategories (also normalize them)
+      const normalizedDefaults = defaultCategories.map(c => c.toLowerCase());
+
+      const merged = [...new Set([...normalizedDefaults, ...usedCategories])];
+
+// Capitalize for display (optional formatting step)
+      const formattedCategories = merged.map(cat =>
+      cat
+    .split(" ")
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ")
+    );
+
+      setAllCategories(formattedCategories);
+
+      } catch (err) {
+        console.error("Error loading video categories", err);
+        setAllCategories(defaultCategories); // fallback
+      }
+    };
+
+    fetchVideosAndBuildCategories();
+  }, []);
 
   // Show/hide scroll buttons based on scroll position
   const updateButtons = () => {
@@ -54,7 +91,7 @@ function Filter({ sidebarOpen, onCategorySelect, selectedCategory }) {
 
       {/* Scrollable Category Buttons */}
       <div className="scroll-container" ref={scrollRef}>
-        {categories.map((category) => (
+        {allCategories.map((category) => (
           <button
             key={category}
             className={selectedCategory === category ? "active-category" : ""}

@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect,useContext } from "react";
 import { useParams } from "react-router-dom";
+import UserContext from "../context/UserContext";
 import axios from "axios";
 import Like from "../Images/like.png"
 import Dislike from "../Images/dislike.png"
@@ -15,6 +16,7 @@ import Content from "./Content";
 import { toast } from "react-toastify";
 
 function VideoPlay() {
+  const {user} = useContext(UserContext)
   const [iframeLoading,setIframeLoafing] = useState(true)
   const [newComment, setNewComment] = useState("");
   const [dotClickedCommentId, setDotClickedCommentId] = useState(null); // Track which comment dropdown is open
@@ -27,7 +29,7 @@ function VideoPlay() {
   const [error, setError] = useState(null); // Error state
   const [loading, setLoading] = useState(true); // Loading state
 
-  const username = localStorage.getItem("userName"); // Logged-in user from local storage
+  const username = user?.UserName
 
   const [showAllComments, setShowAllComments] = useState(false); // For mobile toggle
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1000); // Detect mobile layout
@@ -53,7 +55,7 @@ function VideoPlay() {
     try {
       const res = await axios.post(`http://localhost:5000/api/videos/${id}/comments`, {
         text: newComment,
-        userId: `@${username}` // Hardcoded user tag
+        userId: `@${username}` 
       });
 
       setVideo(prev => ({ ...prev, comments: [...prev.comments, res.data] }));

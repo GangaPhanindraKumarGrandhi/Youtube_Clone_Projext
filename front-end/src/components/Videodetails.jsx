@@ -79,15 +79,15 @@ function Videodetails(props) {
             />
           </Link>
         </div>
-
         <div className={`samdeatails ${props.varient}`}>
           {/* Channel logo */}
           <div className={`samcontainer ${props.varient}`}>
-            <img
+            {props.product.channelLogo.length ==1 ? <div className="letteLogo">{props.product.channelLogo}</div>:(<img
               src={props.product.channelLogo}
               className={`samlogo ${props.varient}`}
               alt="channel logo"
-            />
+            />)}
+            
           </div>
 
           {/* Video title and info */}
@@ -96,24 +96,21 @@ function Videodetails(props) {
             <p>{props.product.uploader}</p>
             <p>{formatViews(props.product.views)} views</p>
           </div>
+          {!props.channelbtn && (
+            <div><button className="channeldotbtn"> ⋮</button></div>
+          )}
 
           {/* Options menu for channel owner */}
           {props.channelbtn && (
-            <div style={{ position: "relative" }}>
-              <button 
-                onClick={handleDotClick}
-                className="channeldotbtn"
-              >
-                ⋮
-              </button>
-
+            <div style={{display:"flex",flexDirection:"row",justifyContent:"space-between",position:"relative"}}> 
               {isDropdownOpen && (
                 <div
                   className="channelupdatebtn"
                   style={{
-                    position: "absolute",
+                   position:"absolute",
+                   marginTop:"10px",
                     top: "30px",
-                    right: "0px",
+                    right: "20px",
                     background: "#fff",
                     padding: "8px",
                     borderRadius: "5px",
@@ -127,8 +124,16 @@ function Videodetails(props) {
                   <button onClick={handleDelete}>
                     <img src={Delete} alt="delete" />Delete
                   </button>
-                </div>
+                </div> 
               )}
+              <div>
+                  <button 
+                onClick={handleDotClick}
+                className="channeldotbtn"
+              >
+                ⋮
+              </button>
+                </div>
             </div>
           )}
         </div>
