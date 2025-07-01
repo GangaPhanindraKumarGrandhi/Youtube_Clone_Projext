@@ -156,7 +156,10 @@ function VideoPlay() {
             <div className="videobtn">
               <div className="videol">
                 <div style={{ display: "flex" }}>
-                  <img src={video.channelLogo} alt="channelLogo" style={{ width: "40px", height: "40px", borderRadius: "50%" }} />
+                  {video.channelLogo.length ==1 ? (<div className="letteLogo" >{video.channelLogo}</div>):(
+                    <img src={video.channelLogo} alt="channelLogo" style={{ width: "40px", height: "40px", borderRadius: "50%" }} />
+                  )}
+                  
                   <p>{video.uploader}</p>
                 </div>
                 <button><img src={Bell} className="icon" /><p>Subscribe</p></button>

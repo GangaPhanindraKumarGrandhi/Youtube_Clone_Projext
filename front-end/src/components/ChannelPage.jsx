@@ -78,12 +78,12 @@ function ChannelPage() {
                     <h1>{channelData?(channelData.channelName):""}</h1>
                     <h3>{channelData?(channelData.Owner):""}</h3>
                     <p className="truncated-multiline">{channelData?(channelData.description):""}</p>
-                    <div style={{display:"flex"}}>
+                    <div style={{display:"flex" , justifyContent:"flex-start",alignItems:"center",width:"auto",marginBottom:"10px",gap:"10px"}} >
                         <button><img src={Bell} />Subscribe</button>
                     <button onClick={()=> navigate("/create-video")}><img src={Post} />Add Video</button>
                     </div>                   
                     </div>
-                    <div style={{display:"flex",flexDirection:"row",justifyContent:"space-between",gap:"30px",transition:"0.3s"}}>     
+                    <div className="dltbtnchn" >     
                      {channelDotclicked && (
                         <div className="deletechannelbtn" onClick={handleDeleteChannel}><button><img src={Delete} alt="" />Delete Channel</button></div>
                      )}

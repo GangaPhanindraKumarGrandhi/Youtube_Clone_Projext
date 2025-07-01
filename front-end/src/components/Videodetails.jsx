@@ -88,7 +88,7 @@ function Videodetails(props) {
               alt="channel logo"
             />)}
             
-          </div>
+          </div> 
 
           {/* Video title and info */}
           <div className={`sampledetails ${props.varient}`}>
